@@ -1,0 +1,39 @@
+<!-- HTML SCRIPT FOR PSYCH 204 PROJECT -->
+<!-- Mika Asaba, Julien Boussard -->
+
+<html>
+<head>
+	<title> psych204project </title>
+	<script src="jquery-1.11.2.min.js"></script>
+	<script src="mmturkey-0.6.js"></script> <!-- manages data submission to mturk -->
+	<link rel="stylesheet" href="style.css" />
+</head>
+
+<div class="slide" id="instructions">
+  <div style="width: 500px; margin: 0 auto; text-align: center; background-color: #8C1516; padding: 20px 15px 10px 10px">
+    <img src="images/stanford.png" height="46" width="360" alt="Stanford University">
+  </div>
+
+	<p class="block-text">Welcome to the experiment!</p>
+
+	<br><br>	
+
+	<p>Click the button below when you are ready to begin.</p>	
+
+	<button type="button" onclick="this.blur(); experiment.next()">Start</button>
+
+	<!-- Legal blurb that we're required to show. -->
+	<br><br>
+	<p class="block-text" id="legal">** This HIT is part of a scientific research project conducted by the Social Learning Lab at Stanford and has been approved by the IRB of Stanford University. Your decision to complete this HIT is voluntary. We will only have access to your worker ID and no other information to identify you. The only other information we will have, in addition to your response, is the time at which you completed the survey and the amount of time you spent to complete it. The results of the research may be presented at scientific meetings or published in scientific journals. Clicking on the 'START' button above indicates that you are at least 18 years of age, and agree to complete this HIT voluntarily.
+
+If you have any questions, concerns, or complaints about this research study, its procedures, risks, and benefits, contact the lab manager, Grace Bennett-Pierre, sll-inquiries-mturk@lists.stanford.edu, or call (650) 498-7832.
+
+If you are not satisfied with how this study is being conducted, or if you have any concerns, complaints, or general questions about the research or your rights as a participant, please contact the Stanford Institutional Review Board (IRB) to speak to someone independent of the research team at (650)-723-2480 or toll free at 1-866-680-2906. You can also write to the Stanford IRB, Stanford University, 3000 El Camino Real, Five Palo Alto Square, 4th Floor, Palo Alto, CA 94306.
+
+Protocol approval date: 12/3/14
+Protocol expiration date: 08/28/17
+</div>
+
+<body>
+
+
