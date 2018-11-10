@@ -8,6 +8,8 @@ function showSlide(id) {
 	$("#"+id).show();
 }
 
+
+
 // Shuffle array
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex ;
@@ -159,7 +161,7 @@ var experiment = {
 
 next: function() {
 
-showSlide("demographics");
+showSlide("rating_page");
 },
 
 

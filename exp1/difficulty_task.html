@@ -20,7 +20,7 @@
     <img src="images/stanford.png" height="46" width="360" alt="Stanford University">
   </div>
 
-	<p class="block-text">Welcome to the experiment! <b> You must use Google Chrome as your browser for this game</b>. In this game, you will view a series of pictures of toys and you will rate how difficult each toy is.</p>
+	<p class="block-text">Welcome to the experiment! <b> You must use Google Chrome as your browser for this game</b>. In this game, you will see some people playing darts.</p>
 
 <p>Click the button below when you are ready to begin.</p>	
 
@@ -44,12 +44,174 @@
 	Protocol expiration date: 08/28/17
 </div>
 
-<!-- Ratings Page -->
-<div class="slide" id="toys">
+
+<div class="slide" id="observation_single_page">
+	<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">
+
+	<p>[Some text]</p>
+
+	<table style="width:100%">
+		<tr>
+    		<td>
+  				<div class="column">
+				<img src="images/dartboards/one.png" alt="one" style="width:200%">
+				</div>
+
+    			<div class="column">
+    			<img src="images/other/green_mark.png" alt="green" style="width:60%" vspace="40" hspace="80">
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<p> Did [agent's name] fail or succeed? </p>
+		<input type="radio" name="gender" value="fail"> Fail
+		<input type="radio" name="gender" value="succeed"> Succeed<br>
+		<br><br>
+	<button type="button" onclick="this.blur(); experiment.next()">Next</button>
+
+	</div>
+</div>
+
+<div class="slide" id="rating_page">
+	<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">
+
+	<p>Now [agent's name] is going to try this board. How likely is [agent's name] to fail or succeed on this dart board?
+	</p>
+
+	<img src="images/dartboards/one.png" alt="one" style="width:100%">
+
+<div class="slidecontainer">
+  definitely fail <input type="range" min="1" max="100" value="50" class="slider" id="myRange"> definitely succeed
+</div>
+
+<br><br>
+
+	<button type="button" onclick="this.blur(); experiment.next()">Next</button>
+
+	</div>
+</div>
+
+
+
+<!-- Trials Page -->
+<div class="slide" id="observations_all">
+
+ <div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">
+
+	<p><img src="images/people/girl2.jpg" alt="girl2" align="middle" style="width:15%" hspace="20"> <b>This is Laura. See how Laura did in darts.</b></p>
+
+<!-- <div class="row">
+
+  	<div class="column">
+	<img src="images/dartboards/one.png" alt="one" style="width:150%">
+	</div>
+
+    <div class="column">
+    <img src="images/other/green_mark.png" alt="green" style="width:50%" vspace="20">
+	</div>
+
+</div>
+
+<div class="row">
+	 <div class="column">
+	<img src="images/dartboards/one.png" alt="one" style="width:150%">
+	</div>
+
+    <div class="column">
+    <img src="images/other/green_mark.png" alt="green" style="width:50%" vspace="20">
+	</div>
+</div>
+
+<div class="row">
+	 <div class="column">
+	<img src="images/dartboards/one.png" alt="one" style="width:150%">
+	</div>
+
+    <div class="column">
+    <img src="images/other/green_mark.png" alt="green" style="width:50%" vspace="20">
+	</div>
+
+</div> -->
+
+<!-- <div class="slidecontainer">
+  <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+</div> -->
+
+<table style="width:100%">
+
+<!-- first row -->
+  <tr>
+    <td>
+  	<div class="column">
+	<img src="images/dartboards/one.png" alt="one" style="width:250%">
+	</div>
+
+    <div class="column">
+    <img src="images/other/green_mark.png" alt="green" style="width:70%" vspace="25" hspace="80">
+	</div>
+	</td>
+
+<td> How likely is Laura to fail or succeed on this dart board? </td>
+
+
+<tr>
+
+	<td>
+	 <div class="column">
+	<img src="images/dartboards/one.png" alt="one" style="width:250%">
+	</div>
+
+    <div class="column">
+    <img src="images/other/green_mark.png" alt="green" style="width:70%" vspace="25" hspace="80">
+	</div>
+</td>
+
+<td align="center">
+		<img src="images/dartboards/five.png" alt="five" style="width:100%">
+ </td>
+</tr>
+
+
+<tr>
+	<td>
+	<div class="column">
+	<img src="images/dartboards/one.png" alt="one" style="width:250%">
+	</div>
+
+    <div class="column">
+    <img src="images/other/green_mark.png" alt="green" style="width:70%" vspace="25" hspace="80">
+	</div>
+</td>
+
+<td>
 
 <div class="slidecontainer">
   <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
 </div>
+
+</td>
+
+</tr>
+
+</table>
+
+
+
+</div>
+
+	<button type="button" onclick="this.blur(); experiment.next()">Next</button>
+
+</div>
+</div>
+
+<!-- Ratings Page -->
+<div class="slide" id="ratings">
+
+<div class="slidecontainer">
+  <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+</div>
+
 </div>
 
 <!-- Demographics Page -->
