@@ -45,6 +45,63 @@
 </div>
 
 
+<!-- Demo/Introduction slides -->
+<div class="slide" id="demo_1">
+	<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">
+
+			<p>In this game, you will see different people playing darts on different dart boards.</p>
+			<p>Each dart board has a blue area and a gray area. If the person lands a dart in the blue area, 
+				that is considered a success. 
+
+				If the person lands a dart in the gray area, however,
+				that is considered a failure.</p>
+
+			<p> What happens if the dart lands in the blue area?</p>
+				<input type="radio" name="gender" value="fail"> Fail
+				<input type="radio" name="gender" value="succeed"> Succeed<br>
+
+			<p> What happens if the dart lands in the gray area?</p>
+				<input type="radio" name="gender" value="fail"> Fail
+				<input type="radio" name="gender" value="succeed"> Succeed<br>
+
+
+			<button type="button" onclick="this.blur(); experiment.next()">Next</button>
+
+	</div>
+</div>
+
+<div class="slide" id="demo_2">
+	<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">
+
+			<p> You will see a green check mark next to the board if the person
+				was successful. You will see a red X next to the board if the person was not successsful. </p>
+
+			<p> If you see this, did the person fail or succeed?</p>
+				<input type="radio" name="gender" value="fail"> Fail
+				<input type="radio" name="gender" value="succeed"> Succeed<br>
+
+			<p> If you see this, did the person fail or succeed?</p>
+				<input type="radio" name="gender" value="fail"> Fail
+				<input type="radio" name="gender" value="succeed"> Succeed<br>
+
+			<button type="button" onclick="this.blur(); experiment.next()">Next</button>
+
+	</div>
+</div>
+
+<div class="slide" id="demo_3">
+	<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">
+
+			<p> After seeing how the person did on a dart board, you will rate how likely it is that
+			they will fail or succeed on another board. </p>
+
+			<p> Ready? Click Begin! </p>
+
+			<button type="button" onclick="this.blur(); experiment.next()">Begin</button>
+
+	</div>
+</div>
+
 <div class="slide" id="observation_single_page">
 	<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">
 
@@ -54,7 +111,7 @@
 		<tr>
     		<td>
   				<div class="column">
-				<img src="images/dartboards/one.png" alt="one" style="width:200%">
+				<img src="images/dartboards/1.png" alt="one" style="width:200%">
 				</div>
 
     			<div class="column">
@@ -79,7 +136,7 @@
 	<p>Now [agent's name] is going to try this board. How likely is [agent's name] to fail or succeed on this dart board?
 	</p>
 
-	<img src="images/dartboards/one.png" alt="one" style="width:100%">
+	<img src="images/dartboards/1.png" alt="one" style="width:100%">
 
 <div class="slidecontainer">
   definitely fail <input type="range" min="1" max="100" value="50" class="slider" id="myRange"> definitely succeed
@@ -144,7 +201,7 @@
   <tr>
     <td>
   	<div class="column">
-	<img src="images/dartboards/one.png" alt="one" style="width:250%">
+	<img src="images/dartboards/1.png" alt="one" style="width:250%">
 	</div>
 
     <div class="column">
@@ -159,7 +216,7 @@
 
 	<td>
 	 <div class="column">
-	<img src="images/dartboards/one.png" alt="one" style="width:250%">
+	<img src="images/dartboards/1.png" alt="one" style="width:250%">
 	</div>
 
     <div class="column">
@@ -168,7 +225,7 @@
 </td>
 
 <td align="center">
-		<img src="images/dartboards/five.png" alt="five" style="width:100%">
+		<img src="images/dartboards/5.png" alt="five" style="width:100%">
  </td>
 </tr>
 
@@ -176,7 +233,7 @@
 <tr>
 	<td>
 	<div class="column">
-	<img src="images/dartboards/one.png" alt="one" style="width:250%">
+	<img src="images/dartboards/1.png" alt="one" style="width:250%">
 	</div>
 
     <div class="column">

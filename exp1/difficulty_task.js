@@ -147,23 +147,255 @@ function submitDemographics(){
   experiment.end();
 }
 
+
+function showObservationTrial(trialname, charname, boardtype) {
+
+  var newSlide = $('<div/>', {
+      id: 'trial'+trialname,
+      class: "slide",
+  });
+
+SlideName = 'trial'+trialname;
+
+  var IntroDiv = $('<div/>', {
+        id: 'intro' + trialname,
+        class: "intro",
+    });
+
+    IntroDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
+                          '<p class="block-text"><center>This is '+charname+'. '+charname+' is trying this dart board.</center></p></div>');
+
+      newSlide.append(IntroDiv);
+
+
+    var imageDiv = $('<div/>', {
+        id: 'trial' + trialname,
+        class: "trial",
+    });
+
+    imageDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
+    //'<center> <a href = "http://web.stanford.edu/~masaba/TEDEstimation/"\n' +
+    '<center><table style="width:100%">\n' +
+    '<tr>\n' +
+        '<td>\n' +
+          '<div class="column">\n' +
+        '<img src="images/dartboards/'+boardtype+'.png" alt="one" style="width:200%">\n' +
+        '</div>\n' +
+
+          '<div class="column">\n' +
+          '<img src="images/other/green_mark.png" alt="green" style="width:60%" vspace="40" hspace="80">\n' +
+        '</div>\n' +
+      '</td>\n' +
+    '</tr>\n' +
+  '</table>\n');
+
+   newSlide.append(imageDiv);
+
+      var QuestionDiv = $('<div/>', {
+        id: 'question' + trialname,
+        class: "question",
+    });
+
+    QuestionDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
+                          '<p class="block-text"><center>Did '+charname+' fail or succeed?</center></p></div>');
+newSlide.append(QuestionDiv);
+   
+      var RadioDiv = $('<div/>', {
+        id: 'scale' + trialname,
+        class: 'scale',
+    });
+
+
+  RadioDiv.html('<div style="width: 800px; margin: 0 auto; text-align: center; "></div>\n' +
+    '<input type="radio" name="gender" value="fail"> Fail\n' +
+    '<input type="radio" name="gender" value="succeed"> Succeed<br>');
+  
+  newSlide.append(RadioDiv);
+
+    //   var CounterDiv = $('<div/>', {
+    //     id: 'counter' + trialname,
+    //     class: "counter",
+    // });
+
+  var ButtonDiv = $('<div/>', {
+        id: 'button',
+        class: 'button',
+    });
+
+  ButtonDiv.html('<button type="button" onclick="this.blur(); experiment.next();">Continue</button>');
+newSlide.append(ButtonDiv);
+
+// var errorMessDiv = $('<div/>', {
+//         id: 'errorMessage' + trialname,
+//         class: 'errorMessage',
+//     });
+
+//   errorMessDiv.html('<div <tr><td align="center">\n' +
+//       '<center><div id="error_att'+trialname+'"></div></center>\n' +
+//       '</td></tr>\n' +
+//       '<br><br>');
+
+// newSlide.append(errorMessDiv);
+
+$("body").append(newSlide);
+showSlide(SlideName);
+
+}
+
+function showRatingTrial(trialname, charname, boardtype) {
+
+  var newSlide = $('<div/>', {
+      id: 'trial'+trialname,
+      class: "slide",
+  });
+
+SlideName = 'trial'+trialname;
+
+  var IntroDiv = $('<div/>', {
+        id: 'intro' + trialname,
+        class: "intro",
+    });
+
+    IntroDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
+                          '<p class="block-text"><center>Now '+charname+' is going to try this dart board.</center></p></div>');
+
+      newSlide.append(IntroDiv);
+
+
+    var imageDiv = $('<div/>', {
+        id: 'trial' + trialname,
+        class: "trial",
+    });
+
+    imageDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
+    //'<center> <a href = "http://web.stanford.edu/~masaba/TEDEstimation/"\n' +
+
+        '<center><img src="images/dartboards/'+boardtype+'.png" alt="one" style="width:50%">');
+          
+   newSlide.append(imageDiv);
+
+      var QuestionDiv = $('<div/>', {
+        id: 'question' + trialname,
+        class: "question",
+    });
+
+    QuestionDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
+                          '<p class="block-text"><center>How likely is it that '+charname+' will fail or succeed on this board?</center></p></div>');
+newSlide.append(QuestionDiv);
+   
+      var SlideDiv = $('<div/>', {
+        id: 'slider' + trialname,
+        class: 'slider',
+    });
+
+      SlideDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
+                    '<div class="slidecontainer">\n'+
+                    '<input type="range" min="1" max="100" value="50" class="slider" id="myRange"></div>');
+  
+  newSlide.append(SlideDiv);
+
+
+  var ButtonDiv = $('<div/>', {
+        id: 'button',
+        class: 'button',
+    });
+
+  ButtonDiv.html('<br><br><br><button type="button" onclick="this.blur(); experiment.next();">Continue</button>');
+newSlide.append(ButtonDiv);
+
+// var errorMessDiv = $('<div/>', {
+//         id: 'errorMessage' + trialname,
+//         class: 'errorMessage',
+//     });
+
+//   errorMessDiv.html('<div <tr><td align="center">\n' +
+//       '<center><div id="error_att'+trialname+'"></div></center>\n' +
+//       '</td></tr>\n' +
+//       '<br><br>');
+
+// newSlide.append(errorMessDiv);
+
+$("body").append(newSlide);
+showSlide(SlideName);
+
+}
+
+
+
+
 //MAIN EXPERIMENT
 showSlide("instructions");
+
+var char_names = shuffle(["Kara", "Anne", "Keli", "Neil", "Suzy"]); //all 4 characters
+var observed_board = shuffle(["1","2","3","4","5"]);
+var rating_board = shuffle(["1","3","5","1","3"]);
+
+var amount_observe = shuffle([1, 3]);
+
+var trial_order = []
+
+for (i = 0; i < char_names.length; i++) {
+  char = char_names[i];
+  observed = observed_board[i];
+  rating = rating_board[i];
+  trial = char + "_" + observed + "_" + rating;
+  trial_order.push(trial);
+  }
+
+var trialtype_order= ["observe","rate",
+                      "observe","rate",
+                      "observe","rate",
+                      "observe","rate",
+                      "observe","rate"]
 
 var experiment = {
 
   // An array to store the data that we're collecting.
+
+  demo_left: ["demo_1", "demo_2", "demo_3"],
   order_trials: [],
   trial_responses: [],
   demographics: [],
   curr_trial: '',
+  curr_char: '',
+  curr_observed_board: '',
+  curr_rating_board: '',
+  trials_left: trial_order,
+  trial_type: trialtype_order,
   // The function that gets called when the sequence is finished.
 
 next: function() {
 
-showSlide("rating_page");
-},
+if (experiment.trials_left.length == 0) {
+showSlide("demographics");
+}
 
+else if (experiment.demo_left.length > 0) {
+experiment.curr_trial = experiment.demo_left.shift();
+showSlide(experiment.curr_trial);
+}
+
+else {
+experiment.curr_trial = experiment.trials_left[0];
+experiment.curr_char = experiment.curr_trial.substr(0,4);
+experiment.observed_board = experiment.curr_trial.substr(5,1);
+experiment.rating_board = experiment.curr_trial.substr(7,1);
+
+
+  if (experiment.trial_type[0] == "rate") {
+    showRatingTrial(experiment.curr_trial, experiment.curr_char, experiment.rating_board);
+    experiment.trial_type.shift();
+    experiment.trials_left.shift();
+}
+  else {
+  // (experiment.trial_type[0] == "}observe") {
+    showObservationTrial(experiment.curr_trial, experiment.curr_char, experiment.observed_board);
+    experiment.trial_type.shift();
+  }
+  
+
+}
+},
 
 end: function() {
     // Show the finish slide.
