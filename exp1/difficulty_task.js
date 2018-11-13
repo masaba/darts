@@ -120,22 +120,22 @@ function updateTextInput(val,ID) {
 
 // }
 
-function saveEstimate() {
-slidstring = "slider";
+function saveRating() {
+slidstring = "rating";
 element = slidstring.concat(experiment.curr_trial);
-estimate = document.getElementById(element).value;
+rating = document.getElementById(element).value;
 
 errorId = "#error_att";
 errorIdTrial = errorId.concat(experiment.curr_trial);
 
-if (estimate == 0) {
+if (rating == 50) {
      $(errorIdTrial).html('<font color="red">' + 
            'Please make a response!' + 
            '</font>');
 }
 
 else {
-experiment.trial_responses.push(estimate);
+experiment.trial_responses.push(rating);
 experiment.order_trials.push(experiment.curr_trial);
 experiment.next();
 }
@@ -292,9 +292,11 @@ newRatingSlide.append(QuestionDiv);
         class: 'ratingslider',
     });
 
-      SlideDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">\n' +
+      SlideDiv.html('<div style="width: 500px; margin: 0 auto; padding: 20px 15px 10px 10px">\n' +
                     '<div class="slidecontainer">\n'+
-                    '<input type="range" class="slider" min="1" max="100" value="50" id="myRange'+trialname+'"></div>');
+                    '<span class="leftlabel">Definitely Fail</span>\n'+
+                    '<input type="range" class="slider" min="1" max="100" step="0.1" value="50" id="rating'+trialname+'"></div>\n' +
+                    '<span class="rightlabel">Definitely Succeed</span>\n');
 
   newRatingSlide.append(SlideDiv);
 
@@ -304,20 +306,20 @@ newRatingSlide.append(QuestionDiv);
         class: 'button',
     });
 
-  ButtonDiv.html('<br><br><br><button type="button" onclick="this.blur(); experiment.next();">Continue</button>');
+  ButtonDiv.html('<br><br><br><button type="button" onclick="this.blur(); saveRating();">Continue</button>');
 newRatingSlide.append(ButtonDiv);
 
-// var errorMessDiv = $('<div/>', {
-//         id: 'errorMessage' + trialname,
-//         class: 'errorMessage',
-//     });
+var errorMessDiv = $('<div/>', {
+        id: 'ratingerrorMessage' + trialname,
+        class: 'errorMessage',
+    });
 
-//   errorMessDiv.html('<div <tr><td align="center">\n' +
-//       '<center><div id="error_att'+trialname+'"></div></center>\n' +
-//       '</td></tr>\n' +
-//       '<br><br>');
+  errorMessDiv.html('<div <tr><td align="center">\n' +
+      '<center><div id="error_att'+trialname+'"></div></center>\n' +
+      '</td></tr>\n' +
+      '<br><br>');
 
-// newSlide.append(errorMessDiv);
+newRatingSlide.append(errorMessDiv);
 
 $("body").append(newRatingSlide);
 showSlide(RatingSlideName);
