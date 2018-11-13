@@ -209,7 +209,7 @@ ObservationSlideName = 'trial'+trialname;
         class: "trial",
     });
 
-    imageDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
+    imageDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">\n' +
     //'<center> <a href = "http://web.stanford.edu/~masaba/TEDEstimation/"\n' +
     '<center><table style="width:100%">\n' +
     '<tr>\n' +
