@@ -120,6 +120,42 @@ function updateTextInput(val,ID) {
 
 // }
 
+function saveButton() {
+failstring = "failbutton";
+failelement = failstring.concat(experiment.curr_trial);
+
+successstring = "successbutton";
+successelement = successstring.concat(experiment.curr_trial);
+
+failresponse = document.getElementById(failelement).checked;
+successresponse = document.getElementById(successelement).checked;
+
+errorId = "#observe_error_att";
+errorIdTrial = errorId.concat(experiment.curr_trial);
+
+response = "";
+
+if (failresponse == false && successresponse == false) {
+     $(errorIdTrial).html('<font color="red">' + 
+           'Please make a response!' + 
+           '</font>');
+}
+    else if (failresponse == true){
+  response = "fail";
+  experiment.observation_checks.push(response);
+  experiment.order_trials.push(experiment.curr_trial);
+  experiment.next();
+ }
+  else {
+    response = "success";
+    experiment.observation_checks.push(response);
+    experiment.order_trials.push(experiment.curr_trial);
+    experiment.next();
+  }
+
+
+}
+
 function saveRating() {
 slidstring = "rating";
 element = slidstring.concat(experiment.curr_trial);
@@ -211,8 +247,8 @@ newSlide.append(QuestionDiv);
 
 
   RadioDiv.html('<div style="width: 800px; margin: 0 auto; text-align: center; "></div>\n' +
-    '<center><input type="radio" name="gender" value="fail"> Fail\n' +
-    '<input type="radio" name="gender" value="succeed"> Succeed<br>');
+    '<center><input type="radio" name="gender" value="fail" id="failbutton'+trialname+'"> Fail\n' +
+    '<input type="radio" name="gender" value="succeed" id="successbutton'+trialname+'"> Succeed<br>');
   
   newSlide.append(RadioDiv);
 
@@ -226,20 +262,20 @@ newSlide.append(QuestionDiv);
         class: 'button',
     });
 
-  observeButtonDiv.html('<br><br><br><button type="button" onclick="this.blur(); experiment.next();">Continue</button>');
+  observeButtonDiv.html('<br><br><br><button type="button" onclick="this.blur(); saveButton();">Continue</button>');
 newSlide.append(observeButtonDiv);
 
-// var errorMessDiv = $('<div/>', {
-//         id: 'errorMessage' + trialname,
-//         class: 'errorMessage',
-//     });
+var errorMessDiv = $('<div/>', {
+        id: 'observeerrorMessage' + trialname,
+        class: 'errorMessage',
+    });
 
-//   errorMessDiv.html('<div <tr><td align="center">\n' +
-//       '<center><div id="error_att'+trialname+'"></div></center>\n' +
-//       '</td></tr>\n' +
-//       '<br><br>');
+  errorMessDiv.html('<div <tr><td align="center">\n' +
+      '<center><div id="observe_error_att'+trialname+'"></div></center>\n' +
+      '</td></tr>\n' +
+      '<br><br>');
 
-// newSlide.append(errorMessDiv);
+newSlide.append(errorMessDiv);
 
 $("body").append(newSlide);
 showSlide(ObservationSlideName);
@@ -360,6 +396,7 @@ var experiment = {
   demo_left: ["demo_1", "demo_2", "demo_3"],
   order_trials: [],
   trial_responses: [],
+  observation_checks: [],
   demographics: [],
   curr_trial: '',
   curr_char: '',
