@@ -323,16 +323,28 @@ RatingSlideName = 'ratingtrial'+trialname;
                           '<p class="block-text"><center>How likely is it that '+charname+' will fail or succeed on this board?</center></p></div>');
 newRatingSlide.append(QuestionDiv);
    
+
+var SlideTextDiv = $('<div/>', {
+        id: 'textslider' + trialname,
+        class: 'textratingslider',
+    });
+
+SlideTextDiv.html('<div style="width: 500px; margin: 0 auto; padding: 20px 15px 10px 10px">\n' +
+                  '<table style="width:100%"><tr>\n'+
+                  '<th align="left">Definitely Fail</th>\n'+
+                  '<th align="right">Definitely Succeed</th>\n'+
+                  '</tr>');
+newRatingSlide.append(SlideTextDiv);
+
       var SlideDiv = $('<div/>', {
         id: 'slider' + trialname,
         class: 'ratingslider',
     });
 
       SlideDiv.html('<div style="width: 500px; margin: 0 auto; padding: 20px 15px 10px 10px">\n' +
-                    '<div class="slidecontainer">\n'+
-                    '<span class="leftlabel">Definitely Fail</span>\n'+
-                    '<input type="range" class="slider" min="1" max="100" step="0.1" value="50" id="rating'+trialname+'"></div>\n' +
-                    '<span class="rightlabel">Definitely Succeed</span>\n');
+                   // '<div class="slidecontainer">\n'+
+                   // '<span>Definitely Fail</span>\n'+
+                    '<input type="range" class="slider" min="1" max="100" step="0.1" value="50" id="rating'+trialname+'"></div>');
 
   newRatingSlide.append(SlideDiv);
 
