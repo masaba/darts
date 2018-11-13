@@ -107,7 +107,7 @@ table td:last-child {
 .slider::-moz-range-thumb {
     width: 25px;
     height: 25px;
-    background: #4CAF50;
+    background: #000000;
     cursor: pointer;
 }
 
