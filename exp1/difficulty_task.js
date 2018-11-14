@@ -30,97 +30,45 @@ function shuffle(array) {
   return array;
 }
 
-//Update text input
-function updateTextInput(val,ID) {
-   document.getElementById(ID).value=val;
-   rating = document.getElementById(ID).value;
+function saveDemoButton() {
+
+failelement = experiment.demo_left[0].concat("fail");
+successelement = experiment.demo_left[0].concat("succeed");
+
+failresponse = document.getElementById(failelement).checked;
+successresponse = document.getElementById(successelement).checked;
+
+//errorId = "#observe_error_att";
+//errorIdTrial = errorId.concat(experiment.curr_trial);
+
+response = "";
+
+if (failresponse == false && successresponse == false) {
+  //   $(errorIdTrial).html('<font color="red">' + 
+   //        'Please make a response!' + 
+   //        '</font>');
+
+}
+    else if (failresponse == true){
+  response = "fail";
+  experiment.demo_responses.push(response);
+  //experiment.order_trials.push(experiment.curr_trial);
+    experiment.curr_trial = experiment.demo_left.shift();
+  experiment.next();
+ }
+  else {
+    response = "success";
+    experiment.demo_responses.push(response);
+      experiment.curr_trial = experiment.demo_left.shift();
+
+   // experiment.order_trials.push(experiment.curr_trial);
+    experiment.next();
+  }
+
 }
 
-// function showTrial(trialname) {
 
-//   var newSlide = $('<div/>', {
-//       id: 'trial'+trialname,
-//       class: "slide",
-//   });
-
-// SlideName = 'trial'+trialname;
-
-//     var imageDiv = $('<div/>', {
-//         id: 'trial' + trialname,
-//         class: "trial",
-//     });
-
-//     imageDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
-//     //'<center> <a href = "http://web.stanford.edu/~masaba/TEDEstimation/"\n' +
-//     '<center><img src="http://web.stanford.edu/~masaba/Estimation/images/trial_pictures/'+trialname+'.jpg" height="300" width="600" alt="Stanford University"</center>\n');
-//       newSlide.append(imageDiv);
-
-//       var QuestionDiv = $('<div/>', {
-//         id: 'question' + trialname,
-//         class: "question",
-//     });
-
-//     QuestionDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
-//                           '<p class="block-text"><center>How long would it take to do this (in seconds)?</center></p></div>');
-// newSlide.append(QuestionDiv);
-   
-//       var ScaleDiv = $('<div/>', {
-//         id: 'scale' + trialname,
-//         class: 'scale',
-//     });
-
-
-//   ScaleDiv.html('<div style="width: 800px; margin: 0 auto; text-align: center; "></div>\n' +
-//     '<base href="https://user-content-dot-custom-elements.appspot.com/PolymerElements/paper-slider/v1.0.14/paper-slider/">\n'+
-//     //'<script src="https://user-content-dot-custom-elements.appspot.com/PolymerElements/paper-slider/v1.0.14/paper-slider/webcomponentsjs/webcomponents-lite.js"></script>\n'+
-//         '<script src="../webcomponentsjs/webcomponents-lite.js"></script>\n'+
-//    '<link rel="import" href="paper-slider.html">\n'+
-//     '<center><paper-slider id="slider'+trialname+'" width="500" min="0" max="100" value="0" markers = ["0","100","200","300","400","500"] pin editable value = "aria-valuenow" maxMarkers=5></paper-slider></center><br><br>\n'+
-//     '<style is="custom-style">\n'+
-//         'paper-slider{\n'+
-//           '--paper-slider-knob-color: var(--paper-blue-500);\n'+
-//           '--paper-slider-active-color: var(--paper-blue-500);\n'+
-//           '--paper-slider-height: 10px;\n'+
-//           'width: 600px;}</style>');
-  
-//   newSlide.append(ScaleDiv);
-
-//       var CounterDiv = $('<div/>', {
-//         id: 'counter' + trialname,
-//         class: "counter",
-//     });
-
-//   CounterDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
-//                       '<p class="block-text"><center>'+(experiment.order_trials.length+1)+'/60 Trials</div>');
-
-// newSlide.append(CounterDiv);
-
-//   var ButtonDiv = $('<div/>', {
-//         id: 'button',
-//         class: 'button',
-//     });
-
-//   ButtonDiv.html('<button type="button" onclick="this.blur(); saveEstimate();">Continue</button>');
-// newSlide.append(ButtonDiv);
-
-// var errorMessDiv = $('<div/>', {
-//         id: 'errorMessage' + trialname,
-//         class: 'errorMessage',
-//     });
-
-//   errorMessDiv.html('<div <tr><td align="center">\n' +
-//       '<center><div id="error_att'+trialname+'"></div></center>\n' +
-//       '</td></tr>\n' +
-//       '<br><br>');
-
-// newSlide.append(errorMessDiv);
-
-// $("body").append(newSlide);
-// showSlide(SlideName);
-
-// }
-
-function saveButton() {
+function saveObservationButton() {
 failstring = "failbutton";
 failelement = failstring.concat(experiment.curr_trial);
 
@@ -142,18 +90,16 @@ if (failresponse == false && successresponse == false) {
 }
     else if (failresponse == true){
   response = "fail";
-  experiment.observation_checks.push(response);
-  experiment.order_trials.push(experiment.curr_trial);
+  experiment.observation_responses.push(response);
+  //experiment.order_trials.push(experiment.curr_trial);
   experiment.next();
  }
   else {
     response = "success";
-    experiment.observation_checks.push(response);
-    experiment.order_trials.push(experiment.curr_trial);
+    experiment.observation_responses.push(response);
+   // experiment.order_trials.push(experiment.curr_trial);
     experiment.next();
   }
-
-
 }
 
 function saveRating() {
@@ -171,7 +117,7 @@ if (rating == 50) {
 }
 
 else {
-experiment.trial_responses.push(rating);
+experiment.rating_responses.push(rating);
 experiment.order_trials.push(experiment.curr_trial);
 experiment.next();
 }
@@ -214,15 +160,15 @@ ObservationSlideName = 'trial'+trialname;
     '<center><table style="width:100%">\n' +
     '<tr>\n' +
        
-      '<img src="images/people/'+charname+'.jpg" alt="one" style="width:20%">\n' +
+      '<img src="images/people/'+charname+'.jpg" alt="one" style="width:100px">\n' +
 
        // '<td>\n' +
        //   '<div class="column">\n' +
-        '<img src="images/dartboards/'+boardtype+'.png" alt="one" style="width:50%">\n' +
+        '<img src="images/dartboards/'+boardtype+'.png" alt="one" style="width:300px">\n' +
       //  '</div>\n' +
 
        //   '<div class="column">\n' +
-          '<img src="images/other/green_mark.png" alt="green" style="width:20%" vspace="40" >\n' +
+          '<img src="images/other/green_mark.png" alt="green" style="width:100px" vspace="40" >\n' +
       '</td>\n' +
     '</tr>\n' +
   '</table>\n');
@@ -262,7 +208,7 @@ newSlide.append(QuestionDiv);
         class: 'button',
     });
 
-  observeButtonDiv.html('<br><br><br><button type="button" onclick="this.blur(); saveButton();">Continue</button>');
+  observeButtonDiv.html('<br><br><br><button type="button" onclick="this.blur(); saveObservationButton();">Continue</button>');
 newSlide.append(observeButtonDiv);
 
 var errorMessDiv = $('<div/>', {
@@ -310,7 +256,24 @@ RatingSlideName = 'ratingtrial'+trialname;
     imageDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
     //'<center> <a href = "http://web.stanford.edu/~masaba/TEDEstimation/"\n' +
 
-        '<center><img src="images/dartboards/'+boardtype+'.png" alt="one" style="width:50%">');
+     
+    '<center><table style="width:100%">\n' +
+    '<tr>\n' +
+       
+      '<img src="images/people/'+charname+'.jpg" alt="one" style="width:100px">\n' +
+
+       // '<td>\n' +
+       //   '<div class="column">\n' +
+        '<img src="images/dartboards/'+boardtype+'.png" alt="one" style="width:300px">\n' +
+      //  '</div>\n' +
+
+       //   '<div class="column">\n' +
+         // '<img src="images/other/green_mark.png" alt="green" style="width:20%" vspace="40" >\n' +
+      '</td>\n' +
+    '</tr>\n' +
+  '</table>\n');
+
+
           
    newRatingSlide.append(imageDiv);
 
@@ -383,7 +346,8 @@ var observed_board = shuffle(["1","2","3","4","5"]); //fix this
 var rating_board = shuffle(["1","3","5","1","3"]); //fix this
 var random_num = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
-var amount_observe = shuffle([1, 3]);
+var amount_observe = shuffle([1, 3]); // participants will see each agent attempt the dart board
+var amount_rating = 1;
 
 var trial_order = []
 
@@ -405,16 +369,22 @@ var experiment = {
 
   // An array to store the data that we're collecting.
 
-  demo_left: ["demo_1", "demo_2", "demo_3"],
+  demo_left: ["demo_1", "demo_2", "demo_3", "demo_4"],
   order_trials: [],
-  trial_responses: [],
-  observation_checks: [],
+
+  //data
+  rating_responses: [], //array for success likelihood ratings on each rating page
+  observation_responses: [], //array for check questions on each observation page
+  demo_responses: [], //darray for check questions on each demo page
+
   demographics: [],
+
   curr_trial: '',
   curr_char: '',
   curr_trial_type: '',
   curr_observed_board: '',
   curr_rating_board: '',
+  
   trials_left: trial_order,
   trial_type: trialtype_order,
   // The function that gets called when the sequence is finished.
@@ -422,8 +392,7 @@ var experiment = {
 next: function() {
 
 if (experiment.demo_left.length > 0) {
-experiment.curr_trial = experiment.demo_left.shift();
-showSlide(experiment.curr_trial);
+  showSlide(experiment.demo_left[0]);
 }
 
 else if (experiment.trial_type[0] == "observe"){

@@ -51,7 +51,7 @@
 			<p>In this game, you will see people playing darts on different dart boards.</p>
 			<p>Each dart board has a blue area and a gray area.</p>
 				
-			<img src="images/dartboards/3.png" alt="oth" style="width:100%">
+			<img src="images/dartboards/3.png" alt="oth" style="width:300px">
 
  			<p>If the person lands a dart in the blue area, 
 				that is considered a success. If the person lands a dart in the gray area, that is considered a failure.</p>
@@ -65,7 +65,7 @@
 				<input type="radio" name="gender" value="succeed"> Succeed<br> -->
 
 
-			<button type="button" onclick="this.blur(); experiment.next()">Next</button>
+			<button type="button" onclick="this.blur(); experiment.demo_left.shift(); experiment.next()">Next</button>
 
 	</div>
 </div>
@@ -80,17 +80,10 @@
 
 				<img src="images/other/green_mark.png" alt="oth" style="width:10%"><br><br>
 
-				<input type="radio" name = "green" id = "greenfail" value="fail"> Fail
-				<input type="radio" name = "green" id ="greensucceed" value="succeed"> Succeed<br><br><br>
+				<input type="radio" name = "green" id = "demo_2fail" value="fail"> Fail
+				<input type="radio" name = "green" id ="demo_2succeed" value="succeed"> Succeed<br><br><br>
 
-			<p> If you see this, did the person fail or succeed?</p>
-
-				<img src="images/other/red_mark.png" alt="oth" style="width:10%"><br><br>
-
-				<input type="radio" name="red" id = "redfail" value="fail"> Fail
-				<input type="radio" name="red" id ="redsucceed" value="succeed"> Succeed<br>
-
-			<button type="button" onclick="this.blur(); experiment.next()">Next</button>
+			<button type="button" onclick="this.blur(); saveDemoButton()">Next</button>
 
 	</div>
 </div>
@@ -98,12 +91,31 @@
 <div class="slide" id="demo_3">
 	<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">
 
+			<p> You will see a green check mark next to the board if the person
+				succeeded. You will see a red X next to the board if the person failed. </p>
+<br><br>
+
+			<p> If you see this, did the person fail or succeed?</p>
+
+				<img src="images/other/red_mark.png" alt="oth" style="width:10%"><br><br>
+
+				<input type="radio" name="red" id = "demo_3fail" value="fail"> Fail
+				<input type="radio" name="red" id ="demo_3succeed" value="succeed"> Succeed<br><br><br>
+
+			<button type="button" onclick="this.blur(); saveDemoButton()">Next</button>
+
+	</div>
+</div>
+
+<div class="slide" id="demo_4">
+	<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">
+
 			<p> After seeing how the person did on a dart board, you will rate how likely it is that
 			they will fail or succeed on a different board. </p>
 
 			<p> Ready? Click Begin! </p>
 
-			<button type="button" onclick="this.blur(); experiment.next()">Begin</button>
+			<button type="button" onclick="this.blur(); experiment.demo_left.shift(); experiment.next()">Begin</button>
 
 	</div>
 </div>
