@@ -129,6 +129,10 @@ function submitDemographics(){
   experiment.end();
 }
 
+function showOutcome() {
+  document.getElementById("outcome");
+}
+
 
 function showObservationTrial(trialname, charname, boardtype) {
 
@@ -137,26 +141,30 @@ function showObservationTrial(trialname, charname, boardtype) {
       class: "slide",
   });
 
-ObservationSlideName = 'trial'+trialname;
+  ObservationSlideName = 'trial'+trialname;
 
   var IntroDiv = $('<div/>', {
         id: 'intro' + trialname,
         class: "intro",
     });
 
+    // change depending on trial 
     IntroDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
-                          '<p class="block-text"><center>This is '+charname+'. '+charname+' is trying this dart board.</center></p></div>');
+                          '<p class="block-text"><center>This is '+charname+'. '+charname+' is trying this dart board. Wait to see what happens...</center></p></div>');
 
-      newSlide.append(IntroDiv);
+    newSlide.append(IntroDiv);
 
-
-    var imageDiv = $('<div/>', {
-        id: 'trial' + trialname,
+    ImageSlideName2 = 'trial'+trialname + 'images2';
+    var imageDiv2 = $('<div/>', {
+        id: ImageSlideName2,
         class: "trial",
+        //style: "display:none"
     });
 
-    imageDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">\n' +
+    imageDiv2.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
     //'<center> <a href = "http://web.stanford.edu/~masaba/TEDEstimation/"\n' +
+
+     
     '<center><table style="width:100%">\n' +
     '<tr>\n' +
        
@@ -168,28 +176,51 @@ ObservationSlideName = 'trial'+trialname;
       //  '</div>\n' +
 
        //   '<div class="column">\n' +
-          '<img src="images/other/green_mark.png" alt="green" style="width:100px" vspace="40" >\n' +
+         // '<img src="images/other/green_mark.png" alt="green" style="width:20%" vspace="40" >\n' +
       '</td>\n' +
     '</tr>\n' +
   '</table>\n');
 
+    
+
+   newSlide.append(imageDiv2);
+
+    // image slide
+    ImageSlideName = 'trial'+trialname + 'images';
+    var imageDiv = $('<div/>', {
+        id: ImageSlideName,
+        class: "trial",
+        style: "display:none"
+    });
+
+    imageDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">\n' +
+    //'<center> <a href = "http://web.stanford.edu/~masaba/TEDEstimation/"\n' +
+  
+          '<center><img src="images/other/green_mark.png" id="outcome" alt="green" style="width:100px" vspace="40"></center>\n');
+
    newSlide.append(imageDiv);
 
+    QuestionSlideName = 'question' + trialname;
       var QuestionDiv = $('<div/>', {
-        id: 'question' + trialname,
+        id: QuestionSlideName,
         class: "question",
+        style: "display:none"
+
     });
 
     QuestionDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
                           '<p class="block-text"><center>Did '+charname+' fail or succeed?</center></p></div>');
 
 
-newSlide.append(QuestionDiv);
-   
-      var RadioDiv = $('<div/>', {
-        id: 'scale' + trialname,
-        class: 'scale',
-    });
+  newSlide.append(QuestionDiv);
+     
+         RadioSlideName = 'scale' + trialname;
+        var RadioDiv = $('<div/>', {
+          id: 'scale' + trialname,
+          class: 'scale',
+          style: "display:none"
+
+      });
 
 
   RadioDiv.html('<div style="width: 800px; margin: 0 auto; text-align: center; "></div>\n' +
@@ -203,15 +234,18 @@ newSlide.append(QuestionDiv);
     //     class: "counter",
     // });
 
+         ButtonSlideName = 'button' + trialname;
   var observeButtonDiv = $('<div/>', {
-        id: 'observebutton',
+        id: ButtonSlideName,
         class: 'button',
+        style: "display:none"
+
     });
 
-  observeButtonDiv.html('<br><br><br><button type="button" onclick="this.blur(); saveObservationButton();">Continue</button>');
-newSlide.append(observeButtonDiv);
+  observeButtonDiv.html('<button type="button" onclick="this.blur(); saveObservationButton();">Continue</button>');
+  newSlide.append(observeButtonDiv);
 
-var errorMessDiv = $('<div/>', {
+  var errorMessDiv = $('<div/>', {
         id: 'observeerrorMessage' + trialname,
         class: 'errorMessage',
     });
@@ -221,10 +255,20 @@ var errorMessDiv = $('<div/>', {
       '</td></tr>\n' +
       '<br><br>');
 
-newSlide.append(errorMessDiv);
+  newSlide.append(errorMessDiv);
 
-$("body").append(newSlide);
+  $("body").append(newSlide);
+
 showSlide(ObservationSlideName);
+
+setTimeout(function(){
+      $('#' + ImageSlideName).show()
+      $('#' + QuestionSlideName).show()
+      $('#' + RadioSlideName).show()
+      $('#' + ButtonSlideName).show()
+
+      // alert('1 second passed')
+    },1000);
 
 }
 
@@ -342,9 +386,9 @@ showSlide("instructions");
 
 var char_names = shuffle(["Kara", "Kara",
 "Anne","Anne", "Keli","Keli", "Neil", "Neil","Suzy","Suzy"]); //all 4 characters
-var observed_board = shuffle(["1","2","3","4","5"]); //fix this
-var rating_board = shuffle(["1","3","5","1","3"]); //fix this
-var random_num = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+var observed_board = shuffle(["1","3","5","1","5"]); //fix this
+var rating_board = shuffle(["1","3","5","1","5"]); //fix this
+// var random_num = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
 var amount_observe = shuffle([1, 3]); // participants will see each agent attempt the dart board
 var amount_rating = 1;
