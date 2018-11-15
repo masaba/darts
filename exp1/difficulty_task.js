@@ -242,7 +242,7 @@ function showObservationTrial(trialname, charname, boardtype) {
 
     });
 
-  observeButtonDiv.html('<button type="button" onclick="this.blur(); saveObservationButton();">Continue</button>');
+  observeButtonDiv.html('<br><button type="button" onclick="this.blur(); saveObservationButton();">Continue</button>');
   newSlide.append(observeButtonDiv);
 
   var errorMessDiv = $('<div/>', {
@@ -384,10 +384,19 @@ showSlide(RatingSlideName);
 //MAIN EXPERIMENT
 showSlide("instructions");
 
-var char_names = shuffle(["Kara", "Kara",
-"Anne","Anne", "Keli","Keli", "Neil", "Neil","Suzy","Suzy"]); //all 4 characters
-var observed_board = shuffle(["1","3","5","1","5"]); //fix this
-var rating_board = shuffle(["1","3","5","1","5"]); //fix this
+//character names 
+var char_names = shuffle(["Kara", "Anne", "Keli", "Suzy", "Emma", "Zoey", "Nora", "Ruby",
+                        "Sara", "Eden", "Bria", "Nina", "Tess", "Mimi", "Maia", "Erin",
+                        "Neil", "Noah", "Liam", "Owen", "Alan","Ryan", "Adam", "Luis",
+                        "Evan", "Eric", "Jack", "John", "Theo", "Cody", "Carl", "Josh"])
+
+//observed board difficulty: 1 = most difficult, 5 = least difficult
+var observed_board = shuffle(["1","3","5","1","5"]);
+
+// rating board difficulty: 1 = most difficult, 5 = least difficult
+var rating_board = shuffle(["1","3","5","1","5"]); 
+
+
 // var random_num = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
 var amount_observe = shuffle([1, 3]); // participants will see each agent attempt the dart board
