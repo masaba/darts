@@ -384,6 +384,8 @@ showSlide(RatingSlideName);
 //MAIN EXPERIMENT
 showSlide("instructions");
 
+showSlide("instructions");
+
 //character names 
 var char_names = shuffle(["Kara", "Anne", "Keli", "Suzy", "Emma", "Zoey", "Nora", "Ruby",
                         "Sara", "Eden", "Bria", "Nina", "Tess", "Mimi", "Maia", "Erin",
