@@ -16,7 +16,6 @@ function shuffle(array) {
 
   // While there remain elements to shuffle...
   while (0 !== currentIndex) {
-
     // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
@@ -32,34 +31,35 @@ function shuffle(array) {
 
 function saveDemoButton() {
 
-failelement = experiment.demo_left[0].concat("fail");
-successelement = experiment.demo_left[0].concat("succeed");
+  failelement = experiment.demo_left[0].concat("fail");
+  successelement = experiment.demo_left[0].concat("succeed");
 
-failresponse = document.getElementById(failelement).checked;
-successresponse = document.getElementById(successelement).checked;
+  failresponse = document.getElementById(failelement).checked;
+  successresponse = document.getElementById(successelement).checked;
 
 //errorId = "#observe_error_att";
 //errorIdTrial = errorId.concat(experiment.curr_trial);
 
-response = "";
+  response = "";
 
-if (failresponse == false && successresponse == false) {
-  //   $(errorIdTrial).html('<font color="red">' + 
-   //        'Please make a response!' + 
-   //        '</font>');
+  if (failresponse == false && successresponse == false) {
+      //do nothing
 
-}
-    else if (failresponse == true){
-  response = "fail";
-  experiment.demo_responses.push(response);
-  //experiment.order_trials.push(experiment.curr_trial);
+  }
+  
+  else if (failresponse == true){
+    response = "fail";
+    experiment.demo_responses.push(response);
+    //experiment.order_trials.push(experiment.curr_trial);
     experiment.curr_trial = experiment.demo_left.shift();
-  experiment.next();
- }
+    experiment.next();
+  
+  }
+
   else {
     response = "success";
     experiment.demo_responses.push(response);
-      experiment.curr_trial = experiment.demo_left.shift();
+    experiment.curr_trial = experiment.demo_left.shift();
 
    // experiment.order_trials.push(experiment.curr_trial);
     experiment.next();
@@ -67,33 +67,34 @@ if (failresponse == false && successresponse == false) {
 
 }
 
-
 function saveObservationButton() {
-failstring = "failbutton";
-failelement = failstring.concat(experiment.curr_trial);
+  failstring = "failbutton";
+  failelement = failstring.concat(experiment.curr_trial);
+  failelement = failelement.concat(experiment.curr_observation);
 
-successstring = "successbutton";
-successelement = successstring.concat(experiment.curr_trial);
+  successstring = "successbutton";
+  successelement = successstring.concat(experiment.curr_trial);
+  successelement = successelement.concat(experiment.curr_observation);
 
-failresponse = document.getElementById(failelement).checked;
-successresponse = document.getElementById(successelement).checked;
+  failresponse = document.getElementById(failelement).checked;
+  successresponse = document.getElementById(successelement).checked;
 
-errorId = "#observe_error_att";
-errorIdTrial = errorId.concat(experiment.curr_trial);
+  errorId = "#observe_error_att";
+  errorIdTrial = errorId.concat(experiment.curr_trial);
 
-response = "";
+  response = "";
 
-if (failresponse == false && successresponse == false) {
-     $(errorIdTrial).html('<font color="red">' + 
-           'Please make a response!' + 
-           '</font>');
-}
-    else if (failresponse == true){
-  response = "fail";
-  experiment.observation_responses.push(response);
-  //experiment.order_trials.push(experiment.curr_trial);
-  experiment.next();
- }
+  if (failresponse == false && successresponse == false) {
+     $(errorIdTrial).html('<font color="red">' + 'Please make a response!' + '</font>');
+  }
+
+  else if (failresponse == true) {
+    response = "fail";
+    experiment.observation_responses.push(response);
+    //experiment.order_trials.push(experiment.curr_trial);
+    experiment.next();
+  }
+  
   else {
     response = "success";
     experiment.observation_responses.push(response);
@@ -103,24 +104,24 @@ if (failresponse == false && successresponse == false) {
 }
 
 function saveRating() {
-slidstring = "rating";
-element = slidstring.concat(experiment.curr_trial);
-rating = document.getElementById(element).value;
+  slidstring = "rating";
+  element = slidstring.concat(experiment.curr_trial);
+  rating = document.getElementById(element).value;
 
-errorId = "#error_att";
-errorIdTrial = errorId.concat(experiment.curr_trial);
+  errorId = "#error_att";
+  errorIdTrial = errorId.concat(experiment.curr_trial);
 
-if (rating == 50) {
-     $(errorIdTrial).html('<font color="red">' + 
-           'Please make a response!' + 
-           '</font>');
-}
+  if (rating == 50) {
+       $(errorIdTrial).html('<font color="red">' + 
+             'Please make a response!' + 
+             '</font>');
+  }
 
-else {
-experiment.rating_responses.push(rating);
-experiment.order_trials.push(experiment.curr_trial);
-experiment.next();
-}
+  else {
+    experiment.rating_responses.push(rating);
+    experiment.order_trials.push(experiment.curr_trial);
+    experiment.next();
+  }
 }
 
 function submitDemographics(){
@@ -129,35 +130,38 @@ function submitDemographics(){
   experiment.end();
 }
 
-function showOutcome() {
-  document.getElementById("outcome");
+function showOutcome(id) {
+  document.getElementById(id).src = "images/other/green_mark.png"
 }
 
 
-function showObservationTrial(trialname, charname, boardtype) {
+function showObservationTrial(trialname, charname, boardtype, observation_num) {
 
   var newSlide = $('<div/>', {
-      id: 'trial'+trialname,
+      id: 'trial'+trialname+observation_num,
       class: "slide",
   });
 
-  ObservationSlideName = 'trial'+trialname;
+  ObservationSlideName = 'trial'+trialname+observation_num;
 
+  IntroName = 'intro' + trialname + observation_num;
   var IntroDiv = $('<div/>', {
-        id: 'intro' + trialname,
+        id: IntroName,
         class: "intro",
+        style: "display:none"       
     });
 
     // change depending on trial 
     IntroDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
-                          '<p class="block-text"><center>This is '+charname+'. '+charname+' is trying this dart board. Wait to see what happens...</center></p></div>');
+                          '<p class="block-text"><center>'+charname+' is trying this dart board...</center></p></div>');
 
     newSlide.append(IntroDiv);
 
-    ImageSlideName2 = 'trial'+trialname + 'images2';
+    ImageSlideName2 = 'trial'+trialname + 'images2'+observation_num;
     var imageDiv2 = $('<div/>', {
         id: ImageSlideName2,
         class: "trial",
+        style: "display:none"
         //style: "display:none"
     });
 
@@ -181,12 +185,25 @@ function showObservationTrial(trialname, charname, boardtype) {
     '</tr>\n' +
   '</table>\n');
 
-    
-
    newSlide.append(imageDiv2);
 
+  WaitName = 'wait' + trialname + observation_num;
+
+  var WaitDiv = $('<div/>', {
+        id: WaitName,
+        class: "wait",
+        style: "display:none"       
+    });
+
+    // change depending on trial 
+    WaitDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
+                          '<p class="block-text"><center>Wait to see how '+charname+' does...</center></p></div>');
+    
+
+   newSlide.append(WaitDiv);
+
     // image slide
-    ImageSlideName = 'trial'+trialname + 'images';
+    ImageSlideName = 'trial'+trialname + 'images'+observation_num;
     var imageDiv = $('<div/>', {
         id: ImageSlideName,
         class: "trial",
@@ -200,7 +217,7 @@ function showObservationTrial(trialname, charname, boardtype) {
 
    newSlide.append(imageDiv);
 
-    QuestionSlideName = 'question' + trialname;
+    QuestionSlideName = 'question' + trialname+observation_num;
       var QuestionDiv = $('<div/>', {
         id: QuestionSlideName,
         class: "question",
@@ -214,9 +231,11 @@ function showObservationTrial(trialname, charname, boardtype) {
 
   newSlide.append(QuestionDiv);
      
-         RadioSlideName = 'scale' + trialname;
+        RadioSlideName = 'scale' + trialname + observation_num;
+        RadioID = trialname + observation_num;
+
         var RadioDiv = $('<div/>', {
-          id: 'scale' + trialname,
+          id: RadioSlideName,
           class: 'scale',
           style: "display:none"
 
@@ -224,8 +243,8 @@ function showObservationTrial(trialname, charname, boardtype) {
 
 
   RadioDiv.html('<div style="width: 800px; margin: 0 auto; text-align: center; "></div>\n' +
-    '<center><input type="radio" name="gender" value="fail" id="failbutton'+trialname+'"> Fail\n' +
-    '<input type="radio" name="gender" value="succeed" id="successbutton'+trialname+'"> Succeed<br>');
+    '<center><input type="radio" name="gender" value="fail" id="failbutton'+RadioID+'"> Fail\n' +
+    '<input type="radio" name="gender" value="succeed" id="successbutton'+RadioID+'"> Succeed<br>');
   
   newSlide.append(RadioDiv);
 
@@ -234,7 +253,8 @@ function showObservationTrial(trialname, charname, boardtype) {
     //     class: "counter",
     // });
 
-         ButtonSlideName = 'button' + trialname;
+         ButtonSlideName = 'button' + trialname + observation_num;
+ 
   var observeButtonDiv = $('<div/>', {
         id: ButtonSlideName,
         class: 'button',
@@ -243,10 +263,11 @@ function showObservationTrial(trialname, charname, boardtype) {
     });
 
   observeButtonDiv.html('<br><button type="button" onclick="this.blur(); saveObservationButton();">Continue</button>');
+ 
   newSlide.append(observeButtonDiv);
 
   var errorMessDiv = $('<div/>', {
-        id: 'observeerrorMessage' + trialname,
+        id: 'observeerrorMessage' + trialname + observation_num,
         class: 'errorMessage',
     });
 
@@ -262,13 +283,35 @@ function showObservationTrial(trialname, charname, boardtype) {
 showSlide(ObservationSlideName);
 
 setTimeout(function(){
+      $('#' + IntroName).show()
+      // alert('1 second passed')
+    },500);
+
+setTimeout(function(){
+      $('#' + ImageSlideName2).show()
+      // alert('1 second passed')
+    },1500);
+
+
+setTimeout(function(){
+      $('#' + WaitName).show()
+      // alert('1 second passed')
+    },1500);
+
+setTimeout(function(){
       $('#' + ImageSlideName).show()
       $('#' + QuestionSlideName).show()
       $('#' + RadioSlideName).show()
       $('#' + ButtonSlideName).show()
 
       // alert('1 second passed')
-    },1000);
+    },4000);
+
+// $(document).ready(function(){
+//     $("button").click(function(){
+//         $("p").show();
+//     });
+// });
 
 }
 
@@ -281,9 +324,13 @@ function showRatingTrial(trialname, charname, boardtype) {
 
 RatingSlideName = 'ratingtrial'+trialname;
 
+IntroName = 'ratingintro' + trialname;
+
   var IntroDiv = $('<div/>', {
-        id: 'ratingintro' + trialname,
+        id: IntroName,
         class: "ratingintro",
+        style: "display:none",
+
     });
 
     IntroDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
@@ -292,9 +339,12 @@ RatingSlideName = 'ratingtrial'+trialname;
       newRatingSlide.append(IntroDiv);
 
 
+    ImageName = 'ratingimage' + trialname;
+
     var imageDiv = $('<div/>', {
-        id: 'trial' + trialname,
+        id: ImageName,
         class: "trial",
+        style: "display:none",
     });
 
     imageDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
@@ -316,24 +366,29 @@ RatingSlideName = 'ratingtrial'+trialname;
       '</td>\n' +
     '</tr>\n' +
   '</table>\n');
-
-
           
    newRatingSlide.append(imageDiv);
 
+QuestionName = 'ratingquestion' + trialname;
+
       var QuestionDiv = $('<div/>', {
-        id: 'question' + trialname,
+        id: QuestionName,
         class: "question",
+        style: "display:none",
     });
 
     QuestionDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
                           '<p class="block-text"><center>How likely is it that '+charname+' will fail or succeed on this board?</center></p></div>');
+
 newRatingSlide.append(QuestionDiv);
-   
+
+
+SlideTextName = 'textslider' + trialname;
 
 var SlideTextDiv = $('<div/>', {
-        id: 'textslider' + trialname,
+        id: SlideTextName,
         class: 'textratingslider',
+        style: "display:none",
     });
 
 SlideTextDiv.html('<div style="width: 500px; margin: 0 auto; padding: 20px 15px 10px 10px">\n' +
@@ -341,11 +396,15 @@ SlideTextDiv.html('<div style="width: 500px; margin: 0 auto; padding: 20px 15px 
                   '<th align="left">Definitely Fail</th>\n'+
                   '<th align="right">Definitely Succeed</th>\n'+
                   '</tr>');
+
 newRatingSlide.append(SlideTextDiv);
 
+RatingName = 'ratingslider' + trialname;
+
       var SlideDiv = $('<div/>', {
-        id: 'slider' + trialname,
+        id: RatingName,
         class: 'ratingslider',
+        style: "display:none",
     });
 
       SlideDiv.html('<div style="width: 500px; margin: 0 auto; padding: 20px 15px 10px 10px">\n' +
@@ -355,10 +414,12 @@ newRatingSlide.append(SlideTextDiv);
 
   newRatingSlide.append(SlideDiv);
 
+ButtonName = 'ratingbutton' + trialname;
 
   var ButtonDiv = $('<div/>', {
-        id: 'button',
+        id: ButtonName,
         class: 'button',
+        style: "display:none",
     });
 
   ButtonDiv.html('<br><br><br><button type="button" onclick="this.blur(); saveRating();">Continue</button>');
@@ -379,46 +440,94 @@ newRatingSlide.append(errorMessDiv);
 $("body").append(newRatingSlide);
 showSlide(RatingSlideName);
 
+setTimeout(function(){
+      $('#' + IntroName).show()
+      // alert('1 second passed')
+    },500);
+
+
+setTimeout(function(){
+      $('#' + ImageName).show()
+      // alert('1 second passed')
+    },1500);
+
+setTimeout(function(){
+      $('#' + QuestionName).show()
+      $('#' + SlideTextName).show()
+      $('#' + RatingName).show()
+      $('#' + ButtonName).show()
+      // alert('1 second passed')
+    },3500);
 }
 
 //MAIN EXPERIMENT
 showSlide("instructions");
 
-showSlide("instructions");
-
 //character names 
-var char_names = shuffle(["Kara", "Anne", "Keli", "Suzy", "Emma", "Zoey", "Nora", "Ruby",
-                        "Sara", "Eden", "Bria", "Nina", "Tess", "Mimi", "Maia", "Erin",
-                        "Neil", "Noah", "Liam", "Owen", "Alan","Ryan", "Adam", "Luis",
-                        "Evan", "Eric", "Jack", "John", "Theo", "Cody", "Carl", "Josh"])
+var char_names = shuffle(["Kara", "Anne", "Keli", "Suzy", "Emma", "Zoey", "Nora", "Ruby","Lucy",
+                        "Sara", "Eden", "Bria", "Nina", "Tess", "Mimi", "Maia", "Erin","Jane",
+                        "Neil", "Noah", "Liam", "Owen", "Alan","Ryan", "Adam", "Luis","Bret",
+                        "Evan", "Eric", "Jack", "John", "Theo", "Cody", "Carl", "Josh","Lars"])
 
 //observed board difficulty: 1 = most difficult, 5 = least difficult
-var observed_board = shuffle(["1","3","5","1","5"]);
+var observed_board = shuffle(["1","1","1","1","1","1","1","1","1","1","1","1",
+                              "3","3","3","3","3","3","3","3","3","3","3","3",
+                              "5","5","5","5","5","5","5","5","5","5","5","5"]);
 
 // rating board difficulty: 1 = most difficult, 5 = least difficult
-var rating_board = shuffle(["1","3","5","1","5"]); 
+var rating_board = shuffle(["1","1","1","1","1","1","1","1","1","1","1","1",
+                            "3","3","3","3","3","3","3","3","3","3","3","3",
+                            "5","5","5","5","5","5","5","5","5","5","5","5"]); 
 
 
-// var random_num = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+// # of observations: 1 or 3 trials observed
+var amount_observe = shuffle(["1","1","1","1","1","1","1","1","1","1","1","1",
+                              "1","1","1","1","1","1","5","5","5","5","5","5",
+                              "5","5","5","5","5","5","5","5","5","5","5","5"]); // 
 
-var amount_observe = shuffle([1, 3]); // participants will see each agent attempt the dart board
-var amount_rating = 1;
+// make each trial
+// example: Kara_1_3_1 (observed board = 1; rating board = 3; amount of observations = 1)
 
 var trial_order = []
-
 for (i = 0; i < char_names.length; i++) {
   char = char_names[i];
   observed = observed_board[i];
   rating = rating_board[i];
-  trial = char + "_" + observed + "_" + rating;
+  amount = amount_observe[i];
+
+  trial = char + "_" + observed + "_" + rating + "_" + amount;
   trial_order.push(trial);
+
   }
 
-var trialtype_order= ["observe","rate",
-                      "observe","rate",
-                      "observe","rate",
-                      "observe","rate",
-                      "observe","rate"]
+var trialtype_order = [];
+var observetrial_num = [];
+for (i=0; i < trial_order.length; i++) {
+  if (trial_order[i].substr(9,1) == "1") {
+    trialtype_order.push("observe")
+    observetrial_num.push("1")
+    trialtype_order.push("rate")
+  }
+
+  else {
+    trialtype_order.push("observe")
+    observetrial_num.push("1")
+
+    trialtype_order.push("observe")
+    observetrial_num.push("2")
+
+    trialtype_order.push("observe")
+    observetrial_num.push("3")
+
+    trialtype_order.push("observe")
+    observetrial_num.push("4")
+
+    trialtype_order.push("observe")
+    observetrial_num.push("5")
+
+    trialtype_order.push("rate")
+  }
+}
 
 var experiment = {
 
@@ -441,45 +550,52 @@ var experiment = {
   curr_rating_board: '',
   
   trials_left: trial_order,
-  trial_type: trialtype_order,
+  observetrial_left: observetrial_num,
+  trial_type: trialtype_order, 
+
   // The function that gets called when the sequence is finished.
 
-next: function() {
+  next: function() {
 
-if (experiment.demo_left.length > 0) {
-  showSlide(experiment.demo_left[0]);
-}
+    if (experiment.demo_left.length > 0) {
+      showSlide(experiment.demo_left[0]);
+    }
 
-else if (experiment.trial_type[0] == "observe"){
-experiment.curr_trial = experiment.trials_left[0];
-experiment.curr_char = experiment.curr_trial.substr(0,4);
-experiment.observed_board = experiment.curr_trial.substr(5,1);
-experiment.rating_board = experiment.curr_trial.substr(7,1);
+    else if (experiment.trial_type[0] == "observe"){
 
-experiment.trial_type.shift();
-showObservationTrial(experiment.curr_trial, experiment.curr_char, experiment.observed_board);
-}
+      experiment.curr_trial = experiment.trials_left[0];
 
-//else if (experiment.trials_left.length > 0 && experiment.trial_type[0] == "rate")  {
-else if (experiment.trial_type[0] == "rate"){
-    experiment.trial_type.shift();
-    experiment.trials_left.shift();
-    showRatingTrial(experiment.curr_trial, experiment.curr_char, experiment.rating_board);
- 
-}
+      experiment.curr_char = experiment.curr_trial.substr(0,4);
+      experiment.observed_board = experiment.curr_trial.substr(5,1);
+      experiment.curr_observation = experiment.observetrial_left.shift();
 
-else {
-showSlide("demographics");
-}
+      experiment.trial_type.shift();
 
-},
+      showObservationTrial(experiment.curr_trial, experiment.curr_char, experiment.observed_board, experiment.curr_observation);
+    }
 
-end: function() {
-    // Show the finish slide.
-    showSlide("finished");
-    // Wait 1.5 seconds and then submit the whole experiment object to Mechanical Turk (mmturkey filters out the functions so we know we're just submitting properties [i.e. data])
-    // setTimeout(function() { turk.submit(experiment) }, 1500);
-    turk.submit(experiment)
-    // $.post("http://localhost:8888", JSON.stringify(experiment));
-  },
+  //else if (experiment.trials_left.length > 0 && experiment.trial_type[0] == "rate")  {
+    else if (experiment.trial_type[0] == "rate"){
+      experiment.rating_board = experiment.curr_trial.substr(7,1);
+      
+      experiment.trial_type.shift();
+      experiment.trials_left.shift();
+      showRatingTrial(experiment.curr_trial, experiment.curr_char, experiment.rating_board);
+   
+    }
+
+    else {
+      showSlide("demographics");
+    }
+
+    },
+
+  end: function() {
+      // Show the finish slide.
+      showSlide("finished");
+      // Wait 1.5 seconds and then submit the whole experiment object to Mechanical Turk (mmturkey filters out the functions so we know we're just submitting properties [i.e. data])
+      // setTimeout(function() { turk.submit(experiment) }, 1500);
+      turk.submit(experiment)
+      // $.post("http://localhost:8888", JSON.stringify(experiment));
+    },
 }
