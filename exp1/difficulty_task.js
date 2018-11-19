@@ -569,6 +569,7 @@ var experiment = {
   curr_outcome: '',
 
   trials_left: trial_order,
+ // trials_left: ["Sara_1_3_1_fail"],
   observetrial_left: observetrial_num,
   trial_type: trialtype_order, 
 
@@ -576,7 +577,11 @@ var experiment = {
 
   next: function() {
 
-    if (experiment.demo_left.length > 0) {
+    if (experiment.trials_left.length == 0) {
+      showSlide("demographics");
+    }
+
+    else if (experiment.demo_left.length > 0) {
       showSlide(experiment.demo_left[0]);
     }
 
@@ -604,10 +609,7 @@ var experiment = {
    
     }
 
-    else {
-      showSlide("demographics");
-    }
-
+  
     },
 
   end: function() {
