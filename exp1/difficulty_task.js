@@ -135,7 +135,7 @@ function showOutcome(id) {
 }
 
 
-function showObservationTrial(trialname, charname, boardtype, observation_num) {
+function showObservationTrial(trialname, charname, boardtype, observation_num, outcome) {
 
   var newSlide = $('<div/>', {
       id: 'trial'+trialname+observation_num,
@@ -213,7 +213,7 @@ function showObservationTrial(trialname, charname, boardtype, observation_num) {
     imageDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">\n' +
     //'<center> <a href = "http://web.stanford.edu/~masaba/TEDEstimation/"\n' +
   
-          '<center><img src="images/other/green_mark.png" id="outcome" alt="green" style="width:100px" vspace="40"></center>\n');
+          '<center><img src="images/other/'+outcome+'.png" id="outcome" alt="green" style="width:100px" vspace="40"></center>\n');
 
    newSlide.append(imageDiv);
 
@@ -482,9 +482,15 @@ var rating_board = shuffle(["1","1","1","1","1","1","1","1","1","1","1","1",
 
 // # of observations: 1 or 3 trials observed
 var amount_observe = shuffle(["1","1","1","1","1","1","1","1","1","1","1","1",
-                              "1","1","1","1","1","1","5","5","5","5","5","5",
-                              "5","5","5","5","5","5","5","5","5","5","5","5"]); // 
+                              "1","1","1","1","1","1","3","3","3","3","3","3",
+                              "3","3","3","3","3","3","3","3","3","3","3","3"]); // 
 
+var outcome_type = shuffle(["succ", "succ", "succ", "succ", "succ", "succ",
+                            "succ", "succ", "succ", "succ", "succ", "succ",
+                            "succ", "succ", "succ", "succ", "succ", "succ",
+                            "fail", "fail", "fail", "fail", "fail", "fail",
+                            "fail", "fail", "fail", "fail", "fail", "fail",
+                            "fail", "fail", "fail", "fail", "fail", "fail"]);
 // make each trial
 // example: Kara_1_3_1 (observed board = 1; rating board = 3; amount of observations = 1)
 
@@ -494,8 +500,9 @@ for (i = 0; i < char_names.length; i++) {
   observed = observed_board[i];
   rating = rating_board[i];
   amount = amount_observe[i];
+  outcome = outcome_type[i];
 
-  trial = char + "_" + observed + "_" + rating + "_" + amount;
+  trial = char + "_" + observed + "_" + rating + "_" + amount + "_" + outcome;
   trial_order.push(trial);
 
   }
@@ -548,7 +555,8 @@ var experiment = {
   curr_trial_type: '',
   curr_observed_board: '',
   curr_rating_board: '',
-  
+  curr_outcome: '',
+
   trials_left: trial_order,
   observetrial_left: observetrial_num,
   trial_type: trialtype_order, 
@@ -566,12 +574,13 @@ var experiment = {
       experiment.curr_trial = experiment.trials_left[0];
 
       experiment.curr_char = experiment.curr_trial.substr(0,4);
-      experiment.observed_board = experiment.curr_trial.substr(5,1);
+      experiment.curr_observed_board = experiment.curr_trial.substr(5,1);
+      experiment.curr_outcome = experiment.curr_trial.substr(11,4);
       experiment.curr_observation = experiment.observetrial_left.shift();
 
       experiment.trial_type.shift();
 
-      showObservationTrial(experiment.curr_trial, experiment.curr_char, experiment.observed_board, experiment.curr_observation);
+      showObservationTrial(experiment.curr_trial, experiment.curr_char, experiment.curr_observed_board, experiment.curr_observation, experiment.curr_outcome);
     }
 
   //else if (experiment.trials_left.length > 0 && experiment.trial_type[0] == "rate")  {
