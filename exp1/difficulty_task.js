@@ -91,6 +91,7 @@ function saveObservationButton() {
   else if (failresponse == true) {
     response = "fail";
     experiment.observation_responses.push(response);
+    experiment.correct_observation_responses.push(experiment.curr_outcome);
     //experiment.order_trials.push(experiment.curr_trial);
     experiment.next();
   }
@@ -98,6 +99,8 @@ function saveObservationButton() {
   else {
     response = "success";
     experiment.observation_responses.push(response);
+    experiment.correct_observation_responses.push(experiment.curr_outcome);
+
    // experiment.order_trials.push(experiment.curr_trial);
     experiment.next();
   }
@@ -549,8 +552,13 @@ var experiment = {
   //data
   rating_responses: [], //array for success likelihood ratings on each rating page
   observation_responses: [], //array for check questions on each observation page
-  demo_responses: [], //darray for check questions on each demo page
+  demo_responses: [], //array for check questions on each demo page
 
+
+  //correct responses
+  correct_observation_responses: [],
+
+  //demographic information
   demographics: [],
 
   curr_trial: '',
