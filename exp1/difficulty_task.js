@@ -546,7 +546,7 @@ var experiment = {
 
   // An array to store the data that we're collecting.
 
-  demo_left: ["demo_1", "demo_2", "demo_3", "demo_4"],
+  demo_left: ["demo_1", "baseline_intro", "baseline_1", "baseline_3", "baseline_5", "demo_2", "demo_3", "demo_4"],
   order_trials: [],
 
   //data
