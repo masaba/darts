@@ -213,7 +213,7 @@ function showObservationTrial(trialname, charname, boardtype, observation_num, o
     imageDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px">\n' +
     //'<center> <a href = "http://web.stanford.edu/~masaba/TEDEstimation/"\n' +
   
-          '<center><img src="images/other/'+outcome+'.png" id="outcome" alt="green" style="width:100px" vspace="40"></center>\n');
+          '<center><img src="images/other/'+outcome+'.png" id="outcome" alt="green" style="width:100px" ></center>\n');
 
    newSlide.append(imageDiv);
 
@@ -526,11 +526,11 @@ for (i=0; i < trial_order.length; i++) {
     trialtype_order.push("observe")
     observetrial_num.push("3")
 
-    trialtype_order.push("observe")
-    observetrial_num.push("4")
+    // trialtype_order.push("observe")
+    // observetrial_num.push("4")
 
-    trialtype_order.push("observe")
-    observetrial_num.push("5")
+    // trialtype_order.push("observe")
+    // observetrial_num.push("5")
 
     trialtype_order.push("rate")
   }
