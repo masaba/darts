@@ -153,7 +153,9 @@ function showObservationTrial(trialname, charname, boardtype, observation_num, o
 
     // change depending on trial 
     IntroDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
+                          '<p><center>Trial #'+observation_num+'</p>\n'+
                           '<p class="block-text"><center>'+charname+' is trying this dart board...</center></p></div>');
+
 
     newSlide.append(IntroDiv);
 
@@ -177,6 +179,7 @@ function showObservationTrial(trialname, charname, boardtype, observation_num, o
        // '<td>\n' +
        //   '<div class="column">\n' +
         '<img src="images/dartboards/'+boardtype+'.png" alt="one" style="width:300px">\n' +
+
       //  '</div>\n' +
 
        //   '<div class="column">\n' +
