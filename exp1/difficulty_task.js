@@ -589,7 +589,7 @@ var experiment = {
   baseline_left: baseline_order,
   
   order_baseline: baseline_order,
-  order_demo: ["success", "fail"]
+  order_demo: ["success", "fail"],
   order_trials: [],
 
   //data
