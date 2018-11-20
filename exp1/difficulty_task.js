@@ -49,7 +49,7 @@ function saveDemoButton() {
   
   else if (failresponse == true){
     response = "fail";
-    experiment.demo_responses.push(response);
+    experiment.responses_demo.push(response);
     //experiment.order_trials.push(experiment.curr_trial);
     experiment.curr_trial = experiment.demo_left.shift();
     experiment.next();
@@ -58,7 +58,7 @@ function saveDemoButton() {
 
   else {
     response = "success";
-    experiment.demo_responses.push(response);
+    experiment.responses_demo.push(response);
     experiment.curr_trial = experiment.demo_left.shift();
 
    // experiment.order_trials.push(experiment.curr_trial);
@@ -90,7 +90,7 @@ function saveObservationButton() {
 
   else if (failresponse == true) {
     response = "fail";
-    experiment.observation_responses.push(response);
+    experiment.responses_observation.push(response);
     experiment.correct_observation_responses.push(experiment.curr_outcome);
     //experiment.order_trials.push(experiment.curr_trial);
     experiment.next();
@@ -98,7 +98,7 @@ function saveObservationButton() {
   
   else {
     response = "success";
-    experiment.observation_responses.push(response);
+    experiment.responses_observation.push(response);
     experiment.correct_observation_responses.push(experiment.curr_outcome);
 
    // experiment.order_trials.push(experiment.curr_trial);
@@ -121,8 +121,25 @@ function saveRating() {
   }
 
   else {
-    experiment.rating_responses.push(rating);
+    experiment.responses_rating.push(rating);
     experiment.order_trials.push(experiment.curr_trial);
+    experiment.next();
+  }
+}
+
+function saveBaselineRating() {
+  slidstring = "rating"
+  element = slidstring.concat(experiment.demo_left[0]);
+  rating = document.getElementById(element).value;
+
+  if (rating == 50) {
+    //do nothing
+  }
+
+  else {
+    experiment.responses_baseline.push(rating);
+    experiment.demo_left.shift()
+
     experiment.next();
   }
 }
@@ -497,6 +514,28 @@ var outcome_type = shuffle(["succ", "succ", "succ", "succ", "succ", "succ",
                             "fail", "fail", "fail", "fail", "fail", "fail",
                             "fail", "fail", "fail", "fail", "fail", "fail",
                             "fail", "fail", "fail", "fail", "fail", "fail"]);
+
+var baseline_type = shuffle(["baseline_1", "baseline_3", "baseline_5"]);
+var baseline_order = [];
+//baseline_order.push("baseline_intro");
+
+for (i = 0; i < baseline_type.length; i++) {
+  baseline_trial_type = baseline_type[i];
+  baseline_order.push(baseline_trial_type);
+}
+
+
+var intro_order = [];
+intro_order.push("demo_1")
+intro_order.push("baseline_intro")
+intro_order.push(baseline_order[0])
+intro_order.push(baseline_order[1])
+intro_order.push(baseline_order[2])
+
+intro_order.push("demo_2")
+intro_order.push("demo_3")
+intro_order.push("demo_4")
+
 // make each trial
 // example: Kara_1_3_1 (observed board = 1; rating board = 3; amount of observations = 1)
 
@@ -546,14 +585,18 @@ var experiment = {
 
   // An array to store the data that we're collecting.
 
-  demo_left: ["demo_1", "baseline_intro", "baseline_1", "baseline_3", "baseline_5", "demo_2", "demo_3", "demo_4"],
+  demo_left: intro_order,
+  baseline_left: baseline_order,
+  
+  order_baseline: baseline_order,
+  order_demo: ["success", "fail"]
   order_trials: [],
 
   //data
-  rating_responses: [], //array for success likelihood ratings on each rating page
-  observation_responses: [], //array for check questions on each observation page
-  demo_responses: [], //array for check questions on each demo page
-
+  responses_baseline: [],
+  responses_rating: [], //array for success likelihood ratings on each rating page
+  responses_observation: [], //array for check questions on each observation page
+  responses_demo: [], //array for check questions on each demo page
 
   //correct responses
   correct_observation_responses: [],

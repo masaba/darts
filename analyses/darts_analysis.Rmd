@@ -1,0 +1,60 @@
+---
+title: "Darts Difficulty data Analysis"
+author: "Mika Asaba (masaba@stanford.edu), Julien Boussard (julienb@stanford.edu)"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    highlight: pygments
+    theme: flatly
+    toc: yes
+    toc_float: true
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+Experiment 1 -- Pilot
+---------------------------------------------
+**Date run: 11/20/2018**
+
+**Experiment structure:**
+(1) First, participants rated the likelihood of success for each board used in the experiment (1/6, 3/6, 5/6; referred to as baseline trials).
+(2) Second, participants learned about the task and answered some check questions (referred to as demo trials).
+(3) Third, for the bulk of the study, participants underwent 36 unique trials with agents who attempted different dart boards and then rated the likelihood of each agent's success on a dart board (referred to as test trials).
+(4) Finally, participants filled out a demographics survey.
+
+**Trial information:**
+The 36 trials varied with respect to:
+- Difficulty of observed dart board (1/6, 3/6, 5/6; 1/6 is the most difficult board)
+- Observed outcome (fail or success; outcome kept constant for each agent)
+- Amount of observations (1 attempt, 3 attempts)
+- Difficulty of new board (1/6, 3/6, 5/6)
+
+- Trial order and agent randomized
+- Half of the agents were male, half were female
+
+**Data structure:**
+- order_baseline: order of baseline trials
+- order_demo: order of demo trials
+- order_trials: order of test trials
+
+- responses_baseline: responses for baseline trials
+- responses_demo: respones for check questions in beginning
+- responses_rating: responses for ratings on test trials
+- responses_observation: responses for check questions on observation pages
+
+### Load Libraries
+```{r message=FALSE}
+library(ggplot2)
+library(lme4)
+library(tidyverse)
+library(readxl)
+library(langcog) # https://github.com/langcog/langcog-package
+library(psych)
+library(viridis) #creating colorblind-friendly fills
+library(gridExtra)
+library(lmerTest)
+library(compute.es)
+library(metafor)
+```
