@@ -1,3 +1,6 @@
 
 *.json
 exp1/mturk/history.csv
+exp1/.DS_Store
+exp1/mturk/.DS_Store
+exp1/pilotstudy/experiment/images/.DS_Store

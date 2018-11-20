@@ -174,7 +174,7 @@ function showObservationTrial(trialname, charname, boardtype, observation_num, o
     // change depending on trial 
     IntroDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
                           '<p><center>Trial #'+observation_num+'</p>\n'+
-                          '<p class="block-text"><center>'+charname+' is trying this dart board...</center></p></div>');
+                          '<p class="block-text"><center>'+charname+' is trying this dartboard...</center></p></div>');
 
 
     newSlide.append(IntroDiv);
@@ -357,7 +357,7 @@ IntroName = 'ratingintro' + trialname;
     });
 
     IntroDiv.html('<div style="width: 500px; margin: 0 auto; text-align: center; padding: 20px 15px 10px 10px"></div>\n' +
-                          '<p class="block-text"><center>Now '+charname+' is going to try this dart board.</center></p></div>');
+                          '<p class="block-text"><center>Now '+charname+' is going to try this dartboard.</center></p></div>');
 
       newRatingSlide.append(IntroDiv);
 
