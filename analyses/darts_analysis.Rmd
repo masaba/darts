@@ -253,7 +253,7 @@ rate.tidy.easy = filter(rate.tidy, rate_diff == "easy")
 ```{r}
 dems = demog.data.raw %>%
   filter(id != "339ANSOTR6FM9CN3T95OLYJB7HIKIJ", # remove person who failed 10 observation check questions
-         id != "338JKRMM27CG143XB0AER8F02S9AH1") %>%
+         id != "338JKRMM27CG143XB0AER8F02S9AH1") %>% # remove person who failed 1 intro check question
   mutate(age = as.numeric(age)) %>%
 #  group_by(id) %>%
   summarize(n=n(),
@@ -272,8 +272,15 @@ Baseline plot.
 ```{r}
 # Histogram
 ggplot(base.tidy, aes(x = responses, fill = board)) +
-  geom_histogram() +
+  geom_histogram(binwidth=10) +
   facet_grid(~ board) +
+  theme_minimal() +
+  ggtitle("Histogram of baseline success ratings")
+
+# Density plot
+ggplot(base.tidy) +
+  geom_density(aes(x = responses, fill = board), alpha=.2) +
+  #facet_grid(~ board) +
   theme_minimal() +
   ggtitle("Histogram of baseline success ratings")
 
@@ -284,6 +291,7 @@ ggplot(base.tidy, aes(x = board, y=responses,color=board)) +
   xlab("Board Type") +
   ylab("Rating (1-100)") +
   ggtitle("Boxplot of baseline success ratings")
+
 ```
 
 Ratings boxplots.
@@ -333,9 +341,34 @@ ggplot(rate.tidy.easy, aes(x = obs_diff, y=as.numeric(rating),color=outcome)) +
   scale_color_brewer(palette="Dark2")
 ```
 
-Histograms for each dart board.
+Density plots for each dart board.
 ```{r}
+ggplot(rate.tidy.hard) +
+  geom_density(aes(x=as.numeric(rating),fill=amount),alpha=.4) +
+  facet_grid(outcome ~ obs_diff) +
+  theme_minimal() +
+  xlab("Rating") +
+  ylab("Rating (1-100)") +
+  ggtitle("Likelihood of success on 1/6 (difficult) board") +
+  scale_color_brewer(palette="Dark2")
 
+ggplot(rate.tidy.med) +
+  geom_density(aes(x=as.numeric(rating),fill=amount),alpha=.4) +
+  facet_grid(outcome ~ obs_diff) +
+  theme_minimal() +
+  xlab("Rating") +
+  ylab("Rating (1-100)") +
+  ggtitle("Likelihood of success on 3/6 (medium) board") +
+  scale_color_brewer(palette="Dark2")
+
+ggplot(rate.tidy.easy) +
+  geom_density(aes(x=as.numeric(rating),fill=amount),alpha=.4) +
+  facet_grid(outcome ~ obs_diff) +
+  theme_minimal() +
+  xlab("Rating") +
+  ylab("Rating (1-100)") +
+  ggtitle("Likelihood of success on 5/6 (easy) board") +
+  scale_color_brewer(palette="Dark2")
 ```
 
 ### Analyses
@@ -343,3 +376,5 @@ Histograms for each dart board.
 #this is where BDA will go?
 summary(lmer(as.numeric(rating) ~ obs_diff + rate_diff + amount + outcome + (1|id), rate.tidy))
 ```
+
+### Other
