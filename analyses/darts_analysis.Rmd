@@ -1,5 +1,5 @@
 ---
-title: "Darts Difficulty data Analysis"
+title: "Darts Difficulty data analysis"
 author: "Mika Asaba (masaba@stanford.edu), Julien Boussard (julienb@stanford.edu)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
@@ -24,7 +24,7 @@ Experiment 1 -- Pilot
 
 (2) Second, participants learned about the task and answered some check questions (referred to as demo trials).
 
-(3) Third, for the bulk of the study, participants underwent 36 unique trials with agents who attempted different dart boards and then rated the likelihood of each agent's success on a dart board (referred to as test trials).
+(3) Third, for the bulk of the study, participants underwent 36 unique trials with agents who attempted different dart boards and then rated the likelihood of each agent's success on a dart board (referred to as test trials; 1 = definitely fail, 100 = definitely succeed).
 
 (4) Finally, participants filled out a demographics survey.
 
@@ -268,34 +268,37 @@ dems
 
 ### Plots
 
-Baseline plot.
+Baseline difficulty judgments
 ```{r}
 # Histogram
 ggplot(base.tidy, aes(x = responses, fill = board)) +
   geom_histogram(binwidth=10) +
   facet_grid(~ board) +
   theme_minimal() +
-  ggtitle("Histogram of baseline success ratings")
+  ggtitle("Histogram of baseline success ratings") +
+  xlab("Responses (1 = Definitely Fail; 100 = Definitely Succeed")
 
 # Density plot
 ggplot(base.tidy) +
   geom_density(aes(x = responses, fill = board), alpha=.2) +
   #facet_grid(~ board) +
   theme_minimal() +
-  ggtitle("Histogram of baseline success ratings")
+  ggtitle("Density plots of baseline success ratings")+
+  xlab("Responses (1 = Definitely Fail; 100 = Definitely Succeed")
 
 # Boxplot
 ggplot(base.tidy, aes(x = board, y=responses,color=board)) +
   geom_boxplot(width=.5) +
+  coord_cartesian(ylim=c(1,100)) +
   theme_minimal() +
   xlab("Board Type") +
   ylab("Rating (1-100)") +
-  ggtitle("Boxplot of baseline success ratings")
+  ggtitle("Boxplot of baseline success ratings")+
+  xlab("Responses (1 = Definitely Fail; 100 = Definitely Succeed")
 
 ```
 
-Ratings boxplots.
-all data combined
+Ratings boxplots facetted by the difficulty of the rating board.
 ```{r}
 ggplot(rate.tidy, aes(x = obs_diff, y=as.numeric(rating),color=outcome)) +
   #geom_violin() +
@@ -304,13 +307,14 @@ ggplot(rate.tidy, aes(x = obs_diff, y=as.numeric(rating),color=outcome)) +
   theme_minimal() +
   xlab("Difficulty of Observed Board") +
   ylab("Rating (1-100)") +
+    coord_cartesian(ylim=c(1,100)) +
 #  theme(legend.title = "Observed Board") +
   ggtitle("Likelihood of success on each board") +
   theme(panel.spacing = unit(2, "lines")) +
   scale_color_brewer(palette="Dark2")
 ```
 
-boxplots for each dart board.
+Boxplots for each rating board.
 ```{r}
 #data split by each dart board
 ggplot(rate.tidy.hard, aes(x = obs_diff, y=as.numeric(rating),color=outcome)) +
@@ -320,7 +324,8 @@ ggplot(rate.tidy.hard, aes(x = obs_diff, y=as.numeric(rating),color=outcome)) +
   xlab("Difficulty of Observed Board") +
   ylab("Rating (1-100)") +
   ggtitle("Likelihood of success on 1/6 (difficult) board") +
-  scale_color_brewer(palette="Dark2")
+  scale_color_brewer(palette="Dark2") +
+    coord_cartesian(ylim=c(1,100))
 
 ggplot(rate.tidy.med, aes(x = obs_diff, y=as.numeric(rating),color=outcome)) +
   geom_boxplot(width=.5) +
@@ -328,8 +333,9 @@ ggplot(rate.tidy.med, aes(x = obs_diff, y=as.numeric(rating),color=outcome)) +
   theme_minimal() +
   xlab("Difficulty of Observed Board") +
   ylab("Rating (1-100)") +
-  ggtitle("Likelihood of success on 1/6 (difficult) board") +
-  scale_color_brewer(palette="Dark2")
+  ggtitle("Likelihood of success on 3/6 (difficult) board") +
+  scale_color_brewer(palette="Dark2") +
+    coord_cartesian(ylim=c(1,100))
 
 ggplot(rate.tidy.easy, aes(x = obs_diff, y=as.numeric(rating),color=outcome)) +
   geom_boxplot(width=.5) +
@@ -337,11 +343,12 @@ ggplot(rate.tidy.easy, aes(x = obs_diff, y=as.numeric(rating),color=outcome)) +
   theme_minimal() +
   xlab("Difficulty of Observed Board") +
   ylab("Rating (1-100)") +
-  ggtitle("Likelihood of success on 1/6 (difficult) board") +
-  scale_color_brewer(palette="Dark2")
+  ggtitle("Likelihood of success on 5/6 (difficult) board") +
+  scale_color_brewer(palette="Dark2") +
+    coord_cartesian(ylim=c(1,100))
 ```
 
-Density plots for each dart board.
+Density plots for each rating board.
 ```{r}
 ggplot(rate.tidy.hard) +
   geom_density(aes(x=as.numeric(rating),fill=amount),alpha=.4) +
@@ -376,5 +383,3 @@ ggplot(rate.tidy.easy) +
 #this is where BDA will go?
 summary(lmer(as.numeric(rating) ~ obs_diff + rate_diff + amount + outcome + (1|id), rate.tidy))
 ```
-
-### Other
