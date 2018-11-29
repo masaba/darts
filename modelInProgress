@@ -1,0 +1,54 @@
+var options = {method: 'rejection', samples: 5000}
+
+var observedData = [
+  //{person:'bob', outcome: 'success', task : 0.5},
+  //{person:'bob', outcome: 'success', task : 0.5},
+  {person:'bob', outcome: 'success', task : 0.5}
+]
+
+var prior = function(taskDifficulty){
+  return uniform(0,1) //update priors with experiments 
+}
+
+// fit the parameters
+var focusPrior = 0.6; 
+var lowFocusSkills = 0.5; 
+
+var model = function() {
+       
+  var skills = mem(function(person){
+    return uniform(0,1)
+  })
+  
+  var focus = function(person){ //is the person focused?
+    return flip(focusPrior)
+  }
+  
+  var throwing = function(person) {
+    return focus(person) ? skills(person) : lowFocusSkills * skills(person)
+  }
+
+  var outcome = function(person, taskDifficulty){
+    return throwing(person) >= taskDifficulty ? 'success' : 'fail'
+  }
+  
+  var probSuccess = function(person, taskDifficulty){
+    return 
+    // probability that this person success on this task given its skills 
+  }
+  
+  var obsFn = function(datum){
+    condition(outcome(datum.person, datum.task)==datum.outcome) //=datum.success
+  }
+  
+  mapData({data: observedData}, obsFn)
+
+  return skills('bob')
+  
+}
+
+var posterior = Infer(options, model)
+print("Bob's skills, given that he succeeds on a 50% task")
+
+print("Expected value = " + expectation(posterior))
+viz.density(posterior, {bounds: [0,1]})
