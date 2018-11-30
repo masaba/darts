@@ -3,18 +3,18 @@ var options = {method: 'rejection', samples: 5000}
 var observedData = [
   //{person:'bob', outcome: 'success', task : 0.5},
   //{person:'bob', outcome: 'success', task : 0.5},
-  {person:'bob', outcome: 'success', task : 0.5}
+  {person:'bob', outcome: 'success', task : 3/6}
 ]
 
-var prior = function(taskDifficulty){
-  return uniform(0,1) //update priors with experiments 
-}
-
 // fit the parameters
-var focusPrior = 0.6; 
-var lowFocusSkills = 0.5; 
+var focusPrior = 0.5; 
+var focusSkills = 0.8; //if skills<difficulty then success
 
 var model = function() {
+  
+  var prior = function(task){
+    return (task==1/6) ? Beta({a:1.1350203,b:4.9493296}) : (task==1/6 ? Beta({a:5.300114,b:3.772161}):Beta({a:18.327339,b:1.016413}))
+  } 
        
   var skills = mem(function(person){
     return uniform(0,1)
@@ -25,18 +25,13 @@ var model = function() {
   }
   
   var throwing = function(person) {
-    return focus(person) ? skills(person) : lowFocusSkills * skills(person)
+    return focus(person) ? focusSkills*skills(person) :  skills(person)
   }
 
-  var outcome = function(person, taskDifficulty){
-    return throwing(person) >= taskDifficulty ? 'success' : 'fail'
+  var outcome = function(person, task){
+    var taskDifficulty = sample(prior(task))
+    return throwing(person) <= taskDifficulty ? 'success' : 'fail'
   }
-  
-  var probSuccess = function(person, taskDifficulty){
-    return 
-    // probability that this person success on this task given its skills 
-  }
-  
   var obsFn = function(datum){
     condition(outcome(datum.person, datum.task)==datum.outcome) //=datum.success
   }
