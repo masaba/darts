@@ -218,8 +218,9 @@ Tidy baseline data.
 ```{r}
 base.tidy = baseline.data.raw %>%
   mutate(responses = as.numeric(responses),
-         board = factor(trial, levels=c("baseline_1","baseline_3","baseline_5"), labels=c("1/6 Board", "3/6 Board", "5/6 Board"))) %>%
-  select(id, board, responses)
+         rate_diff = factor(trial, levels=c("baseline_1","baseline_3","baseline_5"), labels=c("1/6", "3/6", "5/6")),
+         amount = "baseline") %>%
+  select(id, rate_diff, amount, responses)
 ```
 
 
@@ -232,8 +233,8 @@ rate.tidy = rate.data.raw %>%
          amount = str_sub(trial, 5, 5),
          outcome = str_sub(trial, 7, str_length(trial))) %>%
   mutate(id = factor(id),
-         obs_diff = factor(obs_diff, levels=c(5, 3, 1), labels=c("easy","medium","hard")),
-         rate_diff = factor(rate_diff, levels=c(5, 3, 1), labels=c("easy","medium","hard")),
+         obs_diff = factor(obs_diff, levels=c(5, 3, 1), labels=c("5/6","3/6","1/6")),
+         rate_diff = factor(rate_diff, levels=c(5, 3, 1), labels=c("5/6","3/6","1/6")),
          amount = factor(amount, levels=c(1, 3), labels = c("1 Observation", "3 Observations")),
          outcome = factor(outcome, levels=c("succ","fail"), labels=c("success","fail"))) %>%
   filter(id != "339ANSOTR6FM9CN3T95OLYJB7HIKIJ", # remove person who failed 10 observation check questions
@@ -247,6 +248,9 @@ rate.tidy.med = filter(rate.tidy, rate_diff == "medium")
 
 # df for rating board difficulty 5
 rate.tidy.easy = filter(rate.tidy, rate_diff == "easy")
+
+#join bsaeline data with ratings data
+rate.base.tidy = full_join(rate.tidy, base.tidy)
 ```
 
 ### Demographics
@@ -271,23 +275,23 @@ dems
 Baseline difficulty judgments
 ```{r}
 # Histogram
-ggplot(base.tidy, aes(x = responses, fill = board)) +
+ggplot(base.tidy, aes(x = responses, fill = rate_diff)) +
   geom_histogram(binwidth=10) +
-  facet_grid(~ board) +
+  facet_grid(~ rate_diff) +
   theme_minimal() +
   ggtitle("Histogram of baseline success ratings") +
   xlab("Responses (1 = Definitely Fail; 100 = Definitely Succeed")
 
 # Density plot
 ggplot(base.tidy) +
-  geom_density(aes(x = responses, fill = board), alpha=.2) +
+  geom_density(aes(x = responses, fill =rate_diff), alpha=.2) +
   #facet_grid(~ board) +
   theme_minimal() +
   ggtitle("Density plots of baseline success ratings")+
   xlab("Responses (1 = Definitely Fail; 100 = Definitely Succeed")
 
 # Boxplot
-ggplot(base.tidy, aes(x = board, y=responses,color=board)) +
+ggplot(base.tidy, aes(x = rate_diff, y=responses,color=rate_diff)) +
   geom_boxplot(width=.5) +
   coord_cartesian(ylim=c(1,100)) +
   theme_minimal() +
@@ -376,6 +380,15 @@ ggplot(rate.tidy.easy) +
   ylab("Rating (1-100)") +
   ggtitle("Likelihood of success on 5/6 (easy) board") +
   scale_color_brewer(palette="Dark2")
+```
+
+### Tables
+```{r}
+rate.means = rate.tidy %>%
+  group_by(trial, obs_diff, rate_diff, outcome, amount) %>%
+  summarize(mean = mean(as.numeric(rating)))
+
+write.csv(rate.means, "../data/participant_means.csv")
 ```
 
 ### Analyses
