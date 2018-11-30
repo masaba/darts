@@ -1,8 +1,8 @@
 var options = {method: 'rejection', samples: 5000}
 
 var observedData = [
-  //{person:'bob', outcome: 'success', task : 0.5},
-  //{person:'bob', outcome: 'success', task : 0.5},
+  //{person:'bob', outcome: 'success', task : 3/6},
+  //{person:'bob', outcome: 'success', task : 3/6},
   {person:'bob', outcome: 'success', task : 3/6}
 ]
 
@@ -38,7 +38,8 @@ var model = function() {
   
   mapData({data: observedData}, obsFn)
 
-  return skills('bob')
+  //return skills('bob')
+  return outcome('bob', 1/6)
   
 }
 
@@ -46,4 +47,4 @@ var posterior = Infer(options, model)
 print("Bob's skills, given that he succeeds on a 50% task")
 
 print("Expected value = " + expectation(posterior))
-viz.density(posterior, {bounds: [0,1]})
+viz(posterior, {bounds: [0,1]}) //viz.density
