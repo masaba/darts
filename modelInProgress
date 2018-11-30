@@ -12,6 +12,7 @@ var focusSkills = 0.8; //if skills<difficulty then success
 
 var model = function() {
   
+  // edited the line below with "3/6" (there were two "1/6" before)
   var prior = function(task){
     return (task==1/6) ? Beta({a:1.1350203,b:4.9493296}) : (task==3/6 ? Beta({a:5.300114,b:3.772161}):Beta({a:18.327339,b:1.016413}))
   } 
