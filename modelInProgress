@@ -19,6 +19,8 @@ var model = function() {
        
   var skills = mem(function(person){
     return uniform(0,1)
+    // tug of war model used a gaussian here -- return Math.abs(gaussian(1, 1), 0.01)
+
   })
   
   var focus = function(person){ //is the person focused?
