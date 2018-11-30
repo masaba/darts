@@ -32,6 +32,13 @@ var model = function() {
     var taskDifficulty = sample(prior(task))
     return throwing(person) <= taskDifficulty ? 'success' : 'fail'
   }
+  
+  // added this, similar to outcome but returns whether success is true or false
+    var success = function(person, task){
+    var taskDifficulty = sample(prior(task))
+    return throwing(person) <= taskDifficulty
+  }
+  
   var obsFn = function(datum){
     condition(outcome(datum.person, datum.task)==datum.outcome) //=datum.success
   }
@@ -39,7 +46,7 @@ var model = function() {
   mapData({data: observedData}, obsFn)
 
   //return skills('bob')
-  return outcome('bob', 1/6)
+  return success('bob', 1/6)
   
 }
 
