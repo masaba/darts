@@ -1,23 +1,26 @@
 var options = {method: 'rejection', samples: 5000}
 
 var observedData = [
-  //{person:'bob', outcome: 'success', task : 0.5},
-  //{person:'bob', outcome: 'success', task : 0.5},
-  {person:'bob', outcome: 'success', task : 0.5}
+  //{person:'bob', outcome: 'success', task : 3/6},
+  //{person:'bob', outcome: 'success', task : 3/6},
+  {person:'bob', outcome: 'success', task : 3/6}
 ]
 
-var prior = function(taskDifficulty){
-  return uniform(0,1) //update priors with experiments 
-}
-
 // fit the parameters
-var focusPrior = 0.6; 
-var lowFocusSkills = 0.5; 
+var focusPrior = 0.5; 
+var focusSkills = 0.8; //if skills<difficulty then success
 
 var model = function() {
+  
+  // edited the line below with "3/6" (there were two "1/6" before)
+  var prior = function(task){
+    return (task==1/6) ? Beta({a:1.1350203,b:4.9493296}) : (task==3/6 ? Beta({a:5.300114,b:3.772161}):Beta({a:18.327339,b:1.016413}))
+  } 
        
   var skills = mem(function(person){
     return uniform(0,1)
+    // tug of war model used a gaussian here -- return Math.abs(gaussian(1, 1), 0.01)
+
   })
   
   var focus = function(person){ //is the person focused?
@@ -25,16 +28,18 @@ var model = function() {
   }
   
   var throwing = function(person) {
-    return focus(person) ? skills(person) : lowFocusSkills * skills(person)
+    return focus(person) ? focusSkills*skills(person) :  skills(person)
   }
 
-  var outcome = function(person, taskDifficulty){
-    return throwing(person) >= taskDifficulty ? 'success' : 'fail'
+  var outcome = function(person, task){
+    var taskDifficulty = sample(prior(task))
+    return throwing(person) <= taskDifficulty ? 'success' : 'fail'
   }
   
-  var probSuccess = function(person, taskDifficulty){
-    return 
-    // probability that this person success on this task given its skills 
+  // added this, similar to outcome but returns whether success is true or false
+    var success = function(person, task){
+    var taskDifficulty = sample(prior(task))
+    return throwing(person) <= taskDifficulty
   }
   
   var obsFn = function(datum){
@@ -43,7 +48,8 @@ var model = function() {
   
   mapData({data: observedData}, obsFn)
 
-  return skills('bob')
+  //return skills('bob')
+  return success('bob', 1/6)
   
 }
 
@@ -51,4 +57,4 @@ var posterior = Infer(options, model)
 print("Bob's skills, given that he succeeds on a 50% task")
 
 print("Expected value = " + expectation(posterior))
-viz.density(posterior, {bounds: [0,1]})
+viz(posterior, {bounds: [0,1]}) //viz.density
