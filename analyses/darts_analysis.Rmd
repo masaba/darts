@@ -382,13 +382,31 @@ ggplot(rate.tidy.easy) +
   scale_color_brewer(palette="Dark2")
 ```
 
+Correlation plot.
+```{r}
+means = read.csv("means.csv")
+cor.test(means$human_mean, means$model_mean)
+
+ggplot(means, aes(x=human_mean, y=model_mean, colour =rate_diff)) +
+  geom_point() +
+  theme_minimal() +
+  xlab("Human Data") +
+  ylab("Model Predictions") +
+#  ylim(0,1) +
+#  geom_abline(intercept = 0, slope = 1) +
+  geom_smooth(method="lm", se = FALSE) +
+  scale_y_continuous(breaks=seq(0, 1.2, 0.25)) +
+  scale_x_continuous(breaks=seq(0, 1.2, 0.25))
+#  coord_cartesian(ylim = c(0, 1))
+```
+
 ### Tables
 ```{r}
 rate.means = rate.tidy %>%
   group_by(trial, obs_diff, rate_diff, outcome, amount) %>%
   summarize(mean = mean(as.numeric(rating)))
 
-write.csv(rate.means, "../data/participant_means.csv")
+write.csv(rate.means, "participant_means.csv")
 ```
 
 ### Analyses
