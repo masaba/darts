@@ -1,82 +1,135 @@
-var options = {method: 'rejection', samples: 10000}
+var optDart = {method: 'rejection', samples: 1000}
+var optProb = {method: 'rejection', samples: 1000}
 
-var observedData = [
-  {person:'bob', numObs = 3, obsDifficulty: 1/6, obsOutcome : 'success', taskDifficulty : 1/6, humanProb : 0.1},
+
+var dartData = [
+  {"numObs": 3, "obsDifficulty": 1/6, "obsOutcome" : 'success', "taskDifficulty" : 1/6, "humanProb" : 0.1},
 ]
 
-// fit the parameters
+var levels = function(a, lvl){ return _.uniq(_.map(a, lvl)) }
+
+var numObs = levels(dartData, "numObs");
+var obsDifficulty = levels(dartData, "obsDifficulty");
+var obsOutcome = levels(dartData, "obsOutcome");
+var taskDifficulty = {
+  easy: levels(_.filter(dartData, {taskDifficulty: 5/6}), "taskDifficulty"),
+  medium: levels(_.filter(dartData, {taskDifficulty: 3/6}), "taskDifficulty"),
+  hard: levels(_.filter(dartData, {taskDifficulty: 1/6}), "taskDifficulty"),
+};
+
+var smoothToBins = function(dist, sigma, bins){
+  Infer({method: "enumerate"}, function(){
+    var x = sample(dist);
+    var smoothedProbs = map(function(b){return Number.EPSILON+Math.exp(Gaussian({mu: x, sigma: sigma}).score(b)) }, bins)
+    return categorical(smoothedProbs, bins)
+  })
+}
+
+var round = function(x){
+  return Math.round(x*10)/10
+}
+
+var bins = map(round, _.range(0, 1, 0.1))
+
+
+
 var focusPrior = 0.7; 
 var focusSkills = 0.8; //if skills<difficulty then success
 
-var model = function() {
-  
-  var task2probs = mem(function() {
-    
-  })
-  // edited the line below with "3/6" (there were two "1/6" before)
-  var prior = mem(function(task){
-    var a = sample(Discrete({ps:repeat(10, function() {return 1})}))
-    var b = sample(Discrete({ps:repeat(10, function() {return 1})}))
-    return [a, b]
-//     return (task==1/6) ? Beta({a:2,b:5}) : (task==3/6 ? Beta({a:5,b:3.75}):Beta({a:10,b:5}))
-  })
-  
-  var getPrior = function(a, b) {
-    return beta({a: a, b: b})
-  }
-       
-  var skills = mem(function(person){
-    return uniform(0,1)
-    // tug of war model used a gaussian here -- return Math.abs(gaussian(1, 1), 0.01)
-  })
-  
-  var focus = function(person){ //is the person focused?
-    return flip(focusPrior)
-  }
-  
-  var throwing = function(person) {
-    return focus(person) ? focusSkills*skills(person) :  skills(person)
-  }
-
-  var outcome = function(person, task){
-    var params = prior(task)
-    var priorDistr = getPrior([params[0], params[1]])
-    var taskDifficulty = sample(priorDistr)
-    return throwing(person) <= taskDifficulty ? 'success' : 'fail'
-  }
-  
-  // added this, similar to outcome but returns whether success is true or false
-  var success = function(person, task){
-    var taskDifficulty = sample(prior(task))
-    return throwing(person) <= taskDifficulty
-  }
-  
-  var probSuccess = function(person, task){
-    // prob of success inferred by the model
-    // return integral of (prior(task)) between 0 and throwing(person)
-  }
-  
-  var obsFn = function(datum){
-    condition(outcome(datum.person, datum.obsDifficulty)==datum.obsOutcome) //=datum.success
-  }
-  
-  mapData({data: observedData}, obsFn)
-
-  //return skills('bob')
-//   return success('bob', 5/6)
-  return {'hard_params_a': prior(1/6)[0],
-          'hard_params_b': prior(1/6)[1],
-          'medium_params_a': prior(3/6)[0],
-          'medium_params_b': prior(3/6)[1],
-          'easy_params_a': prior(5/6)[0],
-          'easy_params_b': prior(5/6)[1]}
-  
+var priorAKernel = function(task){
+  Discrete({ps:repeat(10, function() {return 1})})
 }
 
-var posterior = Infer(options, model)
-// print("Bob's skills, given that he succeeds on a 50% task")
+var priorBKernel = function(task){
+  Discrete({ps:repeat(10, function() {return 1})})
+}
 
-// print("Expected value = " + expectation(posterior))
-// viz(posterior, {bounds: [0,1]}) //viz.density
+var getPrior = function(a, b) {
+  return Beta({a: a, b: b})
+}
 
-viz.marginals(posterior)
+var dartModel = function(priorA, priorB, trialInfo) {
+  Infer(optDart, function(){
+       
+  var skills = mem(function(){
+    return uniform(0,1)
+  })
+  
+  var focus = function(){ //is the person focused?
+    return flip(focusPrior)
+  }
+  
+  var throwing = function() {
+    return focus() ? focusSkills*skills() :  skills()
+  }
+
+  var outcome = function(task){
+    var taskDifficulty = sample(getPrior(priorA(task), priorB(task)))
+    return throwing() <= taskDifficulty ? 'success' : 'fail'
+  }
+  
+  // added this, similar to outcome but returns whether success is true or false
+  var success = function(task){
+    var taskDifficulty = sample(getPrior(priorA(task), priorB(task)))
+    return throwing() <= taskDifficulty
+  }
+  
+  var obsFn = function(trialInfo){
+    return trialInfo.numObs==1 ? 
+    condition(outcome(trialInfo.obsDifficulty)==trialInfo.obsOutcome) : 
+    condition(outcome(trialInfo.obsDifficulty)==trialInfo.obsOutcome &&
+      outcome(trialInfo.obsDifficulty)==trialInfo.obsOutcome &&
+      outcome(trialInfo.obsDifficulty)==trialInfo.obsOutcome)
+  }
+  
+  return success(trialInfo.taskDifficulty)
+  })  
+}
+
+//to test model is working
+//viz(dartModel(priorA,priorB,dartData)) 
+
+var dataAnalysisModel = function(){
+  var priorA = sample(priorAKernel) + 1
+  var priorB = sample(priorBKernel) + 1
+
+  var predictions = map(function(taskDifficulty){
+    return map(function(obsDifficulty){
+      return map(function(obsOutcome){
+        return map(function(numObs){
+
+        //problem here
+          //how to filter trial and get rating?
+        var trialInfo = {obsOutcome: obsOutcome, obsDifficulty: obsDifficulty, numObs: numObs, taskDifficulty:taskDifficulty}
+        // participants' ratings
+        var trialData = _.filter(dartData, trialInfo)
+
+        // information about the winners and losers
+        var trialInformation = _.filter(trialConfigurations, trialInfo)[0]
+
+        var modelPosterior = dartModel(priorA, priorB, trialInformation)
+        var smoothedPredictions = smoothToBins(modelPosterior, 0.05, bins)
+
+        map(function(d){ observe(smoothedPredictions, d.roundedRating) }, trialData)
+
+        return expectation(modelPosterior)
+
+      }, numObs) // singles tournaments don't have all patterns
+    }, obsOutcome)
+  }, obsDifficulty)
+  },taskDifficulty)
+
+  return {
+    parameters: {priorA: priorA, priorB: priorB}, //hard easy medium
+    predictives: _.fromPairs(_.flattenDepth(predictions, 2))
+  }
+}
+                        
+var nSamples = 20
+var opts = { method: "MCMC",
+            callbacks: [editor.MCMCProgress()],
+             samples: nSamples, burn: 0 }
+
+var posterior = Infer(opts, dataAnalysisModel)
+editor.put("bda_bcm", posterior)
+
