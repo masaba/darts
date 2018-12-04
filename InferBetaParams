@@ -1,7 +1,7 @@
 var options = {method: 'rejection', samples: 10000}
 
 var observedData = [
-  {person:'bob', obsDifficulty: 1/6, obsOutcome : 'success', taskDifficulty : 1/6, humanProb : 0.1},
+  {person:'bob', numObs = 3, obsDifficulty: 1/6, obsOutcome : 'success', taskDifficulty : 1/6, humanProb : 0.1},
 ]
 
 // fit the parameters
