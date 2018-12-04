@@ -1,0 +1,135 @@
+var optDart = {method: 'rejection', samples: 1000}
+var optProb = {method: 'rejection', samples: 1000}
+
+
+var dartData = [
+  {"numObs": 3, "obsDifficulty": 1/6, "obsOutcome" : 'success', "taskDifficulty" : 1/6, "humanProb" : 0.1},
+]
+
+var levels = function(a, lvl){ return _.uniq(_.map(a, lvl)) }
+
+var numObs = levels(dartData, "numObs");
+var obsDifficulty = levels(dartData, "obsDifficulty");
+var obsOutcome = levels(dartData, "obsOutcome");
+var taskDifficulty = {
+  easy: levels(_.filter(dartData, {taskDifficulty: 5/6}), "taskDifficulty"),
+  medium: levels(_.filter(dartData, {taskDifficulty: 3/6}), "taskDifficulty"),
+  hard: levels(_.filter(dartData, {taskDifficulty: 1/6}), "taskDifficulty"),
+};
+
+var smoothToBins = function(dist, sigma, bins){
+  Infer({method: "enumerate"}, function(){
+    var x = sample(dist);
+    var smoothedProbs = map(function(b){return Number.EPSILON+Math.exp(Gaussian({mu: x, sigma: sigma}).score(b)) }, bins)
+    return categorical(smoothedProbs, bins)
+  })
+}
+
+var round = function(x){
+  return Math.round(x*10)/10
+}
+
+var bins = map(round, _.range(0, 1, 0.1))
+
+
+
+var focusPrior = 0.7; 
+var focusSkills = 0.8; //if skills<difficulty then success
+
+var priorAKernel = function(task){
+  Discrete({ps:repeat(10, function() {return 1})})
+}
+
+var priorBKernel = function(task){
+  Discrete({ps:repeat(10, function() {return 1})})
+}
+
+var getPrior = function(a, b) {
+  return Beta({a: a, b: b})
+}
+
+var dartModel = function(priorA, priorB, trialInfo) {
+  Infer(optDart, function(){
+       
+  var skills = mem(function(){
+    return uniform(0,1)
+  })
+  
+  var focus = function(){ //is the person focused?
+    return flip(focusPrior)
+  }
+  
+  var throwing = function() {
+    return focus() ? focusSkills*skills() :  skills()
+  }
+
+  var outcome = function(task){
+    var taskDifficulty = sample(getPrior(priorA(task), priorB(task)))
+    return throwing() <= taskDifficulty ? 'success' : 'fail'
+  }
+  
+  // added this, similar to outcome but returns whether success is true or false
+  var success = function(task){
+    var taskDifficulty = sample(getPrior(priorA(task), priorB(task)))
+    return throwing() <= taskDifficulty
+  }
+  
+  var obsFn = function(trialInfo){
+    return trialInfo.numObs==1 ? 
+    condition(outcome(trialInfo.obsDifficulty)==trialInfo.obsOutcome) : 
+    condition(outcome(trialInfo.obsDifficulty)==trialInfo.obsOutcome &&
+      outcome(trialInfo.obsDifficulty)==trialInfo.obsOutcome &&
+      outcome(trialInfo.obsDifficulty)==trialInfo.obsOutcome)
+  }
+  
+  return success(trialInfo.taskDifficulty)
+  })  
+}
+
+//to test model is working
+//viz(dartModel(priorA,priorB,dartData)) 
+
+var dataAnalysisModel = function(){
+  var priorA = sample(priorAKernel) + 1
+  var priorB = sample(priorBKernel) + 1
+
+  var predictions = map(function(taskDifficulty){
+    return map(function(obsDifficulty){
+      return map(function(obsOutcome){
+        return map(function(numObs){
+
+        //problem here
+          //how to filter trial and get rating?
+        var trialInfo = {obsOutcome: obsOutcome, obsDifficulty: obsDifficulty, numObs: numObs, taskDifficulty:taskDifficulty}
+        // participants' ratings
+        var trialData = _.filter(dartData, trialInfo)
+
+        // information about the winners and losers
+        var trialInformation = _.filter(trialConfigurations, trialInfo)[0]
+
+        var modelPosterior = dartModel(priorA, priorB, trialInformation)
+        var smoothedPredictions = smoothToBins(modelPosterior, 0.05, bins)
+
+        map(function(d){ observe(smoothedPredictions, d.roundedRating) }, trialData)
+
+        return expectation(modelPosterior)
+
+      }, numObs) // singles tournaments don't have all patterns
+    }, obsOutcome)
+  }, obsDifficulty)
+  },taskDifficulty)
+
+  return {
+    parameters: {priorA: priorA, priorB: priorB}, //hard easy medium
+    predictives: _.fromPairs(_.flattenDepth(predictions, 2))
+  }
+}
+                        
+var nSamples = 20
+var opts = { method: "MCMC",
+            callbacks: [editor.MCMCProgress()],
+             samples: nSamples, burn: 0 }
+
+var posterior = Infer(opts, dataAnalysisModel)
+editor.put("bda_bcm", posterior)
+
