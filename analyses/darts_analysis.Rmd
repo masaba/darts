@@ -291,7 +291,9 @@ ggplot(base.tidy) +
   theme_minimal() +
   ggtitle("Density plots of baseline success ratings")+
   xlab("Responses (1 = Definitely Fail; 100 = Definitely Succeed") +
-  facet_grid (~rate_diff)
+  facet_grid (~rate_diff) +
+  scale_color_brewer(palette="Dark2",direction=-1)
+
 
 # Boxplot
 ggplot(base.tidy, aes(x = rate_diff, y=responses,color=rate_diff)) +
@@ -454,7 +456,37 @@ ggplot(means, aes(x=human_mean, y=model_final)) +
 
 Inferred priors.
 ```{r}
+cor.test(means$human_mean, means$model_inferredpriors)
 
+ggplot(means, aes(x=human_mean, y=model_inferredpriors, colour =rate_diff)) +
+  geom_point() +
+  theme_minimal() +
+  xlab("Human Data") +
+  ylab("Model Predictions") +
+#  ylim(0,1) +
+#  geom_abline(intercept = 0, slope = 1) +
+  geom_smooth(method="lm", se = FALSE) +
+  scale_y_continuous(breaks=seq(0, 1.2, 0.25)) +
+  scale_x_continuous(breaks=seq(0, 1.2, 0.25)) +
+  xlim(0,1) +
+  guides(fill=FALSE) +
+  scale_fill_brewer(type = 'div', palette = 'Set3', direction = -1)
+#  facet_grid(~outcome)
+
+#  geom_abline(a = 1, b =0)
+  
+ggplot(means, aes(x=human_mean, y=model_inferredpriors)) +
+  geom_point() +
+  theme_minimal() +
+  xlab("Human Data") +
+  ylab("Model Predictions") +
+#  ylim(0,1) +
+#  geom_abline(intercept = 0, slope = 1) +
+  geom_smooth(method="lm", se = FALSE) +
+  scale_y_continuous(breaks=seq(0, 1.2, 0.25)) +
+  scale_x_continuous(breaks=seq(0, 1.2, 0.25)) +
+  xlim(0,1) +
+  guides(fill=FALSE)
 
 
 
