@@ -1,10 +1,42 @@
 var optDart = {method: 'rejection', samples: 1000}
-var optProb = {method: 'rejection', samples: 1000}
-
 
 var dartData = [
-  {"person":1, "numObs": 1, "obsDifficulty": 1/6, "obsOutcome" : 'success', "taskDifficulty" : 1/6, "humanProb" : 0.1},
-  {"person":2, "numObs": 3, "obsDifficulty": 1/6, "obsOutcome" : 'success', "taskDifficulty" : 1/6, "humanProb" : 0.1},
+  {"person":1, "numObs": 1, "obsDifficulty": 1/6, "obsOutcome" : 'fail', "taskDifficulty" : 1/6, "humanProb" : 0.156166667},
+  {"person":2, "numObs": 3, "obsDifficulty": 1/6, "obsOutcome" : 'success', "taskDifficulty" : 1/6, "humanProb" : 0.675361111},
+  {"person":3, "numObs": 1, "obsDifficulty": 1/6, "obsOutcome" : 'fail', "taskDifficulty" : 1/6, "humanProb" : 0.108144231},
+  {"person":4, "numObs": 3, "obsDifficulty": 1/6, "obsOutcome" : 'success', "taskDifficulty" : 1/6, "humanProb" : 0.7821875},
+  {"person":5, "numObs": 1, "obsDifficulty": 1/6, "obsOutcome" : 'fail', "taskDifficulty" : 3/6, "humanProb" : 0.489188235},
+  {"person":6, "numObs": 3, "obsDifficulty": 1/6, "obsOutcome" : 'success', "taskDifficulty" : 3/6, "humanProb" : 0.770224299},
+  {"person":7, "numObs": 1, "obsDifficulty": 1/6, "obsOutcome" : 'fail', "taskDifficulty" : 3/6, "humanProb" : 0.43867033},
+  {"person":8, "numObs": 3, "obsDifficulty": 1/6, "obsOutcome" : 'success', "taskDifficulty" : 3/6, "humanProb" : 0.903292135},
+  {"person":9, "numObs": 1, "obsDifficulty": 1/6, "obsOutcome" : 'fail', "taskDifficulty" : 5/6, "humanProb" : 0.698947368},
+  {"person":10, "numObs": 3, "obsDifficulty": 1/6, "obsOutcome" : 'success', "taskDifficulty" : 5/6, "humanProb" : 0.915406593},
+  {"person":11, "numObs": 1, "obsDifficulty": 1/6, "obsOutcome" : 'fail', "taskDifficulty" : 5/6, "humanProb" : 0.65722314},
+  {"person":12, "numObs": 3, "obsDifficulty": 1/6, "obsOutcome" : 'success', "taskDifficulty" : 5/6, "humanProb" : 0.953282828},
+  {"person":13, "numObs": 1, "obsDifficulty": 3/6, "obsOutcome" : 'fail', "taskDifficulty" : 1/6, "humanProb" : 0.115689076},
+  {"person":14, "numObs": 3, "obsDifficulty": 3/6, "obsOutcome" : 'success', "taskDifficulty" : 1/6, "humanProb" : 0.399818182},
+  {"person":15, "numObs": 1, "obsDifficulty": 3/6, "obsOutcome" : 'fail', "taskDifficulty" : 1/6, "humanProb" : 0.120571429},
+  {"person":16, "numObs": 3, "obsDifficulty": 3/6, "obsOutcome" : 'success', "taskDifficulty" : 1/6, "humanProb" : 0.480822222},
+  {"person":17, "numObs": 1, "obsDifficulty": 3/6, "obsOutcome" : 'fail', "taskDifficulty" : 3/6, "humanProb" : 0.368446809},
+  {"person":18, "numObs": 3, "obsDifficulty": 3/6, "obsOutcome" : 'success', "taskDifficulty" : 3/6, "humanProb" : 0.716858696},
+  {"person":19, "numObs": 1, "obsDifficulty": 3/6, "obsOutcome" : 'fail', "taskDifficulty" : 3/6, "humanProb" : 0.2401875},
+  {"person":20, "numObs": 3, "obsDifficulty": 3/6, "obsOutcome" : 'success', "taskDifficulty" : 3/6, "humanProb" : 0.819148148},
+  {"person":21, "numObs": 1, "obsDifficulty": 3/6, "obsOutcome" : 'fail', "taskDifficulty" : 5/6, "humanProb" : 0.674860759},
+  {"person":22, "numObs": 3, "obsDifficulty": 3/6, "obsOutcome" : 'success', "taskDifficulty" : 5/6, "humanProb" : 0.872238095},
+  {"person":23, "numObs": 1, "obsDifficulty": 3/6, "obsOutcome" : 'fail', "taskDifficulty" : 5/6, "humanProb" : 0.5808},
+  {"person":24, "numObs": 3, "obsDifficulty": 3/6, "obsOutcome" : 'success', "taskDifficulty" : 5/6, "humanProb" : 0.92889899},
+  {"person":25, "numObs": 1, "obsDifficulty": 5/6, "obsOutcome" : 'fail', "taskDifficulty" : 1/6, "humanProb" : 0.088178218},
+  {"person":26, "numObs": 3, "obsDifficulty": 5/6, "obsOutcome" : 'success', "taskDifficulty" : 1/6, "humanProb" : 0.353886364},
+  {"person":27, "numObs": 1, "obsDifficulty": 5/6, "obsOutcome" : 'fail', "taskDifficulty" : 1/6, "humanProb" : 0.09575},
+  {"person":28, "numObs": 3, "obsDifficulty": 5/6, "obsOutcome" : 'success', "taskDifficulty" : 1/6, "humanProb" : 0.339206522},
+  {"person":29, "numObs": 1, "obsDifficulty": 5/6, "obsOutcome" : 'fail', "taskDifficulty" : 3/6, "humanProb" : 0.252009434},
+  {"person":30, "numObs": 3, "obsDifficulty": 5/6, "obsOutcome" : 'success', "taskDifficulty" : 3/6, "humanProb" : 0.627908163},
+  {"person":31, "numObs": 1, "obsDifficulty": 5/6, "obsOutcome" : 'fail', "taskDifficulty" : 3/6, "humanProb" : 0.133427083},
+  {"person":32, "numObs": 3, "obsDifficulty": 5/6, "obsOutcome" : 'success', "taskDifficulty" : 3/6, "humanProb" : 0.653298246},
+  {"person":33, "numObs": 1, "obsDifficulty": 5/6, "obsOutcome" : 'fail', "taskDifficulty" : 5/6, "humanProb" : 0.426358491},
+  {"person":34, "numObs": 3, "obsDifficulty": 5/6, "obsOutcome" : 'success', "taskDifficulty" : 5/6, "humanProb" : 0.860069307},
+  {"person":35, "numObs": 1, "obsDifficulty": 5/6, "obsOutcome" : 'fail', "taskDifficulty" : 5/6, "humanProb" : 0.204539216},
+  {"person":36, "numObs": 3, "obsDifficulty": 5/6, "obsOutcome" : 'success', "taskDifficulty" : 5/6, "humanProb" : 0.912613636}
 ]
 
 //var levels = function(a, lvl){ return _.uniq(_.map(a, lvl)) }
@@ -83,11 +115,11 @@ var dartModel = function(priorA, priorB, trialInfo) {
 
 //to test model is working
 
-var priorAtest = sample(priorAKernel()) + 1
-var priorBtest = sample(priorBKernel()) + 1
-print(priorAtest)
-print(priorBtest)
-viz(dartModel(priorAtest, priorBtest, dartData[0]))
+//var priorAtest = sample(priorAKernel()) + 1
+//var priorBtest = sample(priorBKernel()) + 1
+//print(priorAtest)
+//print(priorBtest)
+//viz(dartModel(priorAtest, priorBtest, dartData[0]))
 
 
 var trialCondition2PrioVals = mem(function(testDifficult) {
@@ -105,7 +137,8 @@ var dataAnalysisModel = function(opts){
 //       var focusEffect = prior()
       
       //var obshumanProb = sample(Bernoulli({p: datum.humanProb}))
-      condition(sample(dartModel(a, b, datum))==flip(datum.humanProb)) 
+      //condition(sample(dartModel(a, b, datum))==flip(datum.humanProb)) 
+      observe(dartModel(a, b, datum),flip(datum.humanProb)) 
     })
 
   return {
@@ -117,7 +150,7 @@ var dataAnalysisModel = function(opts){
   })
 }
                         
-var nSamples = 20
+var nSamples = 200
 var opts = { method: "MCMC",
             callbacks: [editor.MCMCProgress()],
              samples: nSamples, burn: 0}
@@ -125,12 +158,15 @@ var opts = { method: "MCMC",
 // var posterior = Infer(opts, dataAnalysisModel)
 var posterior = dataAnalysisModel(opts)
 // viz(posterior)
+print('1/6')
 viz(marginalize(posterior, function(x) {
   x.hard_params
 }))
+print('3/6')
 viz(marginalize(posterior, function(x) {
   x.med_params
 }))
+print('5/6')
 viz(marginalize(posterior, function(x) {
   x.easy_params
 }))
