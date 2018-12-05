@@ -424,7 +424,7 @@ ggplot(means, aes(x=human_mean, y=model_final, colour =rate_diff)) +
   ylab("Model Predictions") +
 #  ylim(0,1) +
 #  geom_abline(intercept = 0, slope = 1) +
- # geom_smooth(method="lm", se = FALSE) +
+  geom_smooth(method="lm", se = FALSE) +
   scale_y_continuous(breaks=seq(0, 1.2, 0.25)) +
   scale_x_continuous(breaks=seq(0, 1.2, 0.25)) +
   xlim(0,1) +
@@ -451,6 +451,15 @@ ggplot(means, aes(x=human_mean, y=model_final)) +
 
 #  coord_cartesian(ylim = c(0, 1))
 ```
+
+Inferred priors.
+```{r}
+
+
+
+
+```
+
 
 ### Tables
 ```{r}
