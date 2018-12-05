@@ -68,11 +68,11 @@ var focusPrior = 0.7;
 var focusSkills = 0.8; //if skills<difficulty then success
 
 var priorAKernel = function(){
-  return Discrete({ps:repeat(10, function() {return 1})})
+  return Discrete({ps:repeat(40, function() {return 1})})
 }
 
 var priorBKernel = function(){
-  return Discrete({ps:repeat(10, function() {return 1})})
+  return Discrete({ps:repeat(40, function() {return 1})})
 }
 
 var getPrior = function(a, b) {
@@ -123,8 +123,8 @@ var dartModel = function(priorA, priorB, trialInfo) {
 
 
 var trialCondition2PrioVals = mem(function(testDifficult) {
-  var priorA = sample(priorAKernel()) + 1
-  var priorB = sample(priorBKernel()) + 1
+  var priorA = sample(priorAKernel())/4 + 1
+  var priorB = sample(priorBKernel())/4 + 1
   return [priorA, priorB]
 })
 
@@ -150,8 +150,8 @@ var dataAnalysisModel = function(opts){
   })
 }
                         
-var nSamples = 200
-var opts = { method: "MCMC",
+var nSamples = 4000
+var opts = { method: "MCMC",kernel: 'HMC',
             callbacks: [editor.MCMCProgress()],
              samples: nSamples, burn: 0}
 
