@@ -150,10 +150,26 @@ var dataAnalysisModel = function(opts){
   })
 }
                         
-var nSamples = 4000
-var opts = { method: "MCMC",kernel: 'HMC',
-            callbacks: [editor.MCMCProgress()],
-             samples: nSamples, burn: 0}
+var nSamples = 2000
+//var opts = { method: "MCMC",	kernel: 'HMC',
+//            callbacks: [editor.MCMCProgress()],
+//             samples: nSamples, burn: 0}
+
+var opts = {
+	method: 'MCMC',
+	samples: 10000,
+	callbacks: [editor.MCMCProgress()],
+	kernel: {
+		HMC : { steps: 100, stepSize: 0.0025 }
+	}
+}
+
+//var opts = {
+//  method: 'optimize',
+//  optMethod: {adam: {stepSize: .25}},
+//  steps: 10000,
+//  samples: 1000
+//}
 
 // var posterior = Infer(opts, dataAnalysisModel)
 var posterior = dataAnalysisModel(opts)
@@ -170,4 +186,3 @@ print('5/6')
 viz(marginalize(posterior, function(x) {
   x.easy_params
 }))
-// editor.put("bda_bcm", posterior)
