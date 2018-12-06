@@ -494,7 +494,7 @@ HMC prior.
 ```{r}
 cor.test(means$human_mean, means$model_hmcprior)
 
-ggplot(means, aes(x=human_mean, y=model_hmcprior, colour =rate_diff)) +
+ggplot(means, aes(x=human_mean, y=model_hmcprior, colour = outcome)) +
   geom_point() +
   theme_minimal() +
   xlab("Human Data") +
@@ -506,8 +506,8 @@ ggplot(means, aes(x=human_mean, y=model_hmcprior, colour =rate_diff)) +
   scale_x_continuous(breaks=seq(0, 1.2, 0.25)) +
   xlim(0,1) +
   guides(fill=FALSE) +
-  scale_fill_brewer(type = 'div', palette = 'Set3', direction = -1)
-#  facet_grid(~outcome)
+  scale_fill_brewer(type = 'div', palette = 'Set3', direction = -1) +
+  facet_grid( ~amount)
 
 #  geom_abline(a = 1, b =0)
   
