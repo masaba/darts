@@ -218,7 +218,7 @@ Tidy baseline data.
 ```{r}
 base.tidy = baseline.data.raw %>%
   mutate(responses = as.numeric(responses),
-         rate_diff = factor(trial, levels=c("baseline_1","baseline_3","baseline_5"), labels=c("1/6", "3/6", "5/6")),
+         rate_diff = factor(trial, levels=c("baseline_5","baseline_3","baseline_1"), labels=c("5/6", "3/6", "1/6")),
          amount = "baseline") %>%
   select(id, rate_diff, amount, responses)
 ```
@@ -401,7 +401,7 @@ ggplot(rate.tidy) +
 #only success
 ggplot(rate.tidy.success) +
   geom_density(aes(x=as.numeric(rating),fill=amount),alpha=.4) +
-  facet_grid(rate_diff ~ obs_diff) +
+  facet_grid(obs_diff ~ rate_diff) +
   xlab("Rating") +
   ylab("Density") +
  # scale_fill_manual(c("purple2","lightgoldenrod2")) +
@@ -416,8 +416,6 @@ Correlation plot.
 means = read.csv("means.csv")
 cor.test(means$human_mean, means$model_mean)
 cor.test(means$human_mean, means$model_final)
-
-
 
 ggplot(means, aes(x=human_mean, y=model_final, colour =rate_diff)) +
   geom_point() +
@@ -492,6 +490,43 @@ ggplot(means, aes(x=human_mean, y=model_inferredpriors)) +
 
 ```
 
+HMC prior.
+```{r}
+cor.test(means$human_mean, means$model_hmcprior)
+
+ggplot(means, aes(x=human_mean, y=model_hmcprior, colour =rate_diff)) +
+  geom_point() +
+  theme_minimal() +
+  xlab("Human Data") +
+  ylab("Model Predictions") +
+#  ylim(0,1) +
+#  geom_abline(intercept = 0, slope = 1) +
+  geom_smooth(method="lm", se = FALSE) +
+  scale_y_continuous(breaks=seq(0, 1.2, 0.25)) +
+  scale_x_continuous(breaks=seq(0, 1.2, 0.25)) +
+  xlim(0,1) +
+  guides(fill=FALSE) +
+  scale_fill_brewer(type = 'div', palette = 'Set3', direction = -1)
+#  facet_grid(~outcome)
+
+#  geom_abline(a = 1, b =0)
+  
+ggplot(means, aes(x=human_mean, y=model_hmcprior)) +
+  geom_point() +
+  theme_minimal() +
+  xlab("Human Data") +
+  ylab("Model Predictions") +
+#  ylim(0,1) +
+#  geom_abline(intercept = 0, slope = 1) +
+  geom_smooth(method="lm", se = FALSE) +
+  scale_y_continuous(breaks=seq(0, 1.2, 0.25)) +
+  scale_x_continuous(breaks=seq(0, 1.2, 0.25)) +
+  xlim(0,1) +
+  guides(fill=FALSE)
+
+
+
+```
 
 ### Tables
 ```{r}
