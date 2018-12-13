@@ -150,10 +150,11 @@ var dataAnalysisModel = function(opts){
   })
 }
                         
-var nSamples = 4000
-var opts = { method: "MCMC",kernel: 'HMC',
-            callbacks: [editor.MCMCProgress()],
-             samples: nSamples, burn: 0}
+var nSamples = 10000
+var opts = { method: "MCMC",kernel: {
+		HMC : { steps: 50, stepSize: 0.0025 }
+	}, callbacks: [editor.MCMCProgress()],
+  samples: nSamples, burn: 0}
 
 // var posterior = Infer(opts, dataAnalysisModel)
 var posterior = dataAnalysisModel(opts)
